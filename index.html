@@ -3,34 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run Custom JavaScript on Blooket</title>
+    <title>My Blooket Integration</title>
 </head>
 <body>
-    <h1>Run Custom JavaScript on Blooket</h1>
-    <p>Enter your JavaScript code below and click the button to run it:</p>
-    <textarea id="jsInput" rows="10" cols="50">
-// Example:
-// JavaScript:document.body.contentEditable = 'true'; document.designMode = 'on'; void 0;
-    </textarea><br>
-    <button id="runButton">Run JavaScript</button>
-
-    <script>
-        // Function to execute custom JavaScript code
-        function runCustomJS() {
-            const code = document.getElementById("jsInput").value;
-            if (code.startsWith('JavaScript:')) {
-                try {
-                    eval(code.substring(11));  // Remove 'JavaScript:' and evaluate the code
-                } catch (e) {
-                    alert('Error in your JavaScript code: ' + e.message);
-                }
-            } else {
-                alert('Please prefix your code with "JavaScript:"');
-            }
-        }
-
-        // Add event listener to the button
-        document.getElementById("runButton").addEventListener("click", runCustomJS);
-    </script>
+    <h1>Welcome to My Blooket Integration Page</h1>
+    <p>Click the button below to join a Blooket game:</p>
+    <a href="https://www.blooket.com/play" target="_blank">
+        <button>Join Blooket Game</button>
+    </a>
 </body>
 </html>
