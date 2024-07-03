@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Embedder</title>
+    <title>Website Embedder and Editor</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            padding: 20px;
             background-color: #f0f0f0;
         }
         .search-container {
-            text-align: center;
+            margin-bottom: 20px;
         }
         .search-input {
             padding: 10px;
@@ -23,28 +22,18 @@
             font-size: 16px;
         }
         .embed-container {
-            margin-top: 20px;
             width: 800px;
             height: 600px;
-            overflow: hidden;
             border: 1px solid #ccc;
+            position: relative;
         }
         iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
-        .button-container {
+        .editor-tools {
             margin-top: 20px;
-        }
-        .auto-clicker-btn {
-            margin-top: 10px;
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #333;
-            color: white;
-            border: none;
         }
     </style>
 </head>
@@ -53,19 +42,14 @@
         <input type="text" id="urlInput" class="search-input" placeholder="Enter URL to embed">
         <button onclick="embedWebsite()">Embed Website</button>
     </div>
+    <div class="editor-tools">
+        <button onclick="toggleEditing()">Toggle Editing</button>
+    </div>
     <div class="embed-container" id="embedContainer">
         <!-- Embedded website will appear here -->
     </div>
-    <div class="button-container">
-        <button class="auto-clicker-btn" onclick="toggleAutoClicker()">Start Auto Clicker</button>
-    </div>
 
     <script>
-        let autoClickerInterval;
-        let isAutoClickerOn = false;
-        let _button = 4;
-        let _ID;
-
         function embedWebsite() {
             const url = document.getElementById('urlInput').value.trim();
             if (!url) {
@@ -76,44 +60,33 @@
             // Create an iframe element
             const iframe = document.createElement('iframe');
             iframe.src = url;
+            iframe.id = 'embeddedFrame';
 
             // Clear previous content and append the iframe
             const embedContainer = document.getElementById('embedContainer');
             embedContainer.innerHTML = '';
             embedContainer.appendChild(iframe);
-
-            // Attach event listeners for the auto clicker
-            iframe.onload = () => {
-                iframe.contentWindow.document.body.addEventListener('mousedown', (e) => {
-                    if (e.button === _button) {
-                        _ID = _ID || setInterval(() => e.target.click(), 1);
-                    }
-                });
-
-                iframe.contentWindow.document.body.addEventListener('mouseup', (e) => {
-                    if (e.button === _button) {
-                        clearInterval(_ID);
-                        _ID = 0;
-                    }
-                });
-            }
         }
 
-        function toggleAutoClicker() {
-            const button = document.querySelector('.auto-clicker-btn');
-            if (isAutoClickerOn) {
-                clearInterval(autoClickerInterval);
-                button.textContent = 'Start Auto Clicker';
+        function toggleEditing() {
+            const iframe = document.getElementById('embeddedFrame');
+            if (iframe) {
+                // Access the iframe's document and body
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+                // Toggle contentEditable and designMode
+                if (iframeDoc.body.contentEditable === 'true') {
+                    iframeDoc.body.contentEditable = 'false';
+                    iframeDoc.designMode = 'off';
+                    alert('Editing disabled.');
+                } else {
+                    iframeDoc.body.contentEditable = 'true';
+                    iframeDoc.designMode = 'on';
+                    alert('Editing enabled. You can now inspect and edit the content.');
+                }
             } else {
-                autoClickerInterval = setInterval(() => {
-                    const iframe = document.querySelector('iframe');
-                    if (iframe) {
-                        iframe.contentWindow.document.body.click();
-                    }
-                }, 1000); // Adjust the interval as needed (1000ms = 1s)
-                button.textContent = 'Stop Auto Clicker';
+                alert('Please embed a website first.');
             }
-            isAutoClickerOn = !isAutoClickerOn;
         }
     </script>
 </body>
