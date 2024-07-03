@@ -1,8 +1,8 @@
 {
-  "homepage":"https://monicatvera.github.io/2048",
+  "homepage":"https://21cookej.github.io",
   "name": "2048",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
