@@ -3,91 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Embedder and Editor</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-        .search-container {
-            margin-bottom: 20px;
-        }
-        .search-input {
-            padding: 10px;
-            width: 400px;
-            font-size: 16px;
-        }
-        .embed-container {
-            width: 800px;
-            height: 600px;
-            border: 1px solid #ccc;
-            position: relative;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        .editor-tools {
-            margin-top: 20px;
-        }
-    </style>
+    <title>Run Custom JavaScript on Blooket</title>
 </head>
 <body>
-    <div class="search-container">
-        <input type="text" id="urlInput" class="search-input" placeholder="Enter URL to embed">
-        <button onclick="embedWebsite()">Embed Website</button>
-    </div>
-    <div class="editor-tools">
-        <button onclick="toggleEditing()">Toggle Editing</button>
-    </div>
-    <div class="embed-container" id="embedContainer">
-        <!-- Embedded website will appear here -->
-    </div>
+    <h1>Run Custom JavaScript on Blooket</h1>
+    <p>Enter your JavaScript code below and click the button to run it:</p>
+    <textarea id="jsInput" rows="10" cols="50">
+// Example:
+// JavaScript:document.body.contentEditable = 'true'; document.designMode = 'on'; void 0;
+    </textarea><br>
+    <button id="runButton">Run JavaScript</button>
 
     <script>
-        function embedWebsite() {
-            const url = document.getElementById('urlInput').value.trim();
-            if (!url) {
-                alert('Please enter a valid URL.');
-                return;
-            }
-
-            // Create an iframe element
-            const iframe = document.createElement('iframe');
-            iframe.src = url;
-            iframe.id = 'embeddedFrame';
-
-            // Clear previous content and append the iframe
-            const embedContainer = document.getElementById('embedContainer');
-            embedContainer.innerHTML = '';
-            embedContainer.appendChild(iframe);
-        }
-
-        function toggleEditing() {
-            const iframe = document.getElementById('embeddedFrame');
-            if (iframe) {
-                // Access the iframe's document and body
-                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-                // Toggle contentEditable and designMode
-                if (iframeDoc.body.contentEditable === 'true') {
-                    iframeDoc.body.contentEditable = 'false';
-                    iframeDoc.designMode = 'off';
-                    alert('Editing disabled.');
-                } else {
-                    iframeDoc.body.contentEditable = 'true';
-                    iframeDoc.designMode = 'on';
-                    alert('Editing enabled. You can now inspect and edit the content.');
+        // Function to execute custom JavaScript code
+        function runCustomJS() {
+            const code = document.getElementById("jsInput").value;
+            if (code.startsWith('JavaScript:')) {
+                try {
+                    eval(code.substring(11));  // Remove 'JavaScript:' and evaluate the code
+                } catch (e) {
+                    alert('Error in your JavaScript code: ' + e.message);
                 }
             } else {
-                alert('Please embed a website first.');
+                alert('Please prefix your code with "JavaScript:"');
             }
         }
+
+        // Add event listener to the button
+        document.getElementById("runButton").addEventListener("click", runCustomJS);
     </script>
 </body>
 </html>
