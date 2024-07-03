@@ -3,17 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enable Content Editing</title>
+    <title>Run Custom JavaScript</title>
 </head>
 <body>
-    <h1>My GitHub Pages Site</h1>
-    <p>This is some sample text. Click the button to edit this content.</p>
-    <button id="editButton">Enable Editing</button>
+    <h1>Run Custom JavaScript</h1>
+    <p>Enter your JavaScript code below and click the button to run it:</p>
+    <textarea id="jsInput" rows="10" cols="50">
+// Example:
+// alert('Hello, World!');
+    </textarea><br>
+    <button id="runButton">Run JavaScript</button>
 
     <script>
-        document.getElementById("editButton").addEventListener("click", function() {
-            document.body.contentEditable = 'true';
-            document.designMode = 'on';
+        document.getElementById("runButton").addEventListener("click", function() {
+            try {
+                const code = document.getElementById("jsInput").value;
+                eval(code);
+            } catch (e) {
+                alert('Error in your JavaScript code: ' + e.message);
+            }
         });
     </script>
 </body>
