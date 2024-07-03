@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run JavaScript on Button Click</title>
+    <title>Enable Content Editing</title>
 </head>
 <body>
     <h1>My GitHub Pages Site</h1>
-    <button id="myButton">Click Me!</button>
+    <p>This is some sample text. Click the button to edit this content.</p>
+    <button id="editButton">Enable Editing</button>
 
     <script>
-        document.getElementById("myButton").addEventListener("click", function() {
-            alert("Button clicked! JavaScript is running.");
+        document.getElementById("editButton").addEventListener("click", function() {
+            document.body.contentEditable = 'true';
+            document.designMode = 'on';
         });
     </script>
 </body>
