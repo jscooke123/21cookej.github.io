@@ -32,7 +32,7 @@ function updateBoard() {
                 tile.textContent = '';
             } else {
                 tile.textContent = num;
-                tile.style.backgroundColor = `#${Math.min(16777215, 1 << (num * 4)).toString(16).padStart(6, '0')}`;
+                tile.classList.add(`level${num}`);
             }
             gameContainer.appendChild(tile);
         });
