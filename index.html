@@ -3,33 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Embedder</title>
+    <title>My Custom Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             background-color: #f0f0f0;
             margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header img {
+            height: 40px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
         }
         .search-container {
+            padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
         }
         .search-input {
             padding: 10px;
             width: 400px;
             font-size: 16px;
+            margin-right: 10px;
         }
         .embed-container {
-            width: 800px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 800px;
             height: 600px;
             overflow: hidden;
             border: 1px solid #ccc;
-            margin-bottom: 20px;
+            background-color: white;
         }
         iframe {
             width: 100%;
@@ -50,6 +64,10 @@
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="https://via.placeholder.com/150" alt="Logo">
+        <h1>My Custom Page</h1>
+    </div>
     <div class="search-container">
         <input type="text" id="urlInput" class="search-input" placeholder="Enter URL to embed">
         <button onclick="embedWebsite()">Embed Website</button>
@@ -57,7 +75,6 @@
     <div class="embed-container" id="embedContainer">
         <!-- Embedded website will appear here -->
     </div>
-
     <button class="edit-mode-switch" onclick="toggleEditMode()">Edit Mode: Off</button>
 
     <script>
@@ -86,12 +103,12 @@
             editModeSwitch.textContent = editMode ? 'Edit Mode: On' : 'Edit Mode: Off';
 
             if (editMode) {
-                // Perform actions for edit mode (if any)
-                // Example: Enable content editing or other features
+                document.body.contentEditable = 'true';
+                document.designMode = 'on';
                 alert('Edit mode activated. You can now modify the page.');
             } else {
-                // Perform actions for normal mode (if any)
-                // Example: Disable content editing or revert changes
+                document.body.contentEditable = 'false';
+                document.designMode = 'off';
                 alert('Edit mode deactivated.');
             }
         }
