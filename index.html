@@ -63,6 +63,8 @@
     <script>
         let autoClickerInterval;
         let isAutoClickerOn = false;
+        let _button = 4;
+        let _ID;
 
         function embedWebsite() {
             const url = document.getElementById('urlInput').value.trim();
@@ -79,6 +81,22 @@
             const embedContainer = document.getElementById('embedContainer');
             embedContainer.innerHTML = '';
             embedContainer.appendChild(iframe);
+
+            // Attach event listeners for the auto clicker
+            iframe.onload = () => {
+                iframe.contentWindow.document.body.addEventListener('mousedown', (e) => {
+                    if (e.button === _button) {
+                        _ID = _ID || setInterval(() => e.target.click(), 1);
+                    }
+                });
+
+                iframe.contentWindow.document.body.addEventListener('mouseup', (e) => {
+                    if (e.button === _button) {
+                        clearInterval(_ID);
+                        _ID = 0;
+                    }
+                });
+            }
         }
 
         function toggleAutoClicker() {
