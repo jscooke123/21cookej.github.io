@@ -3,111 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Piano Tiles Game</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .game-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background-color: #000;
-            width: 600px;
-            height: 600px;
-            border: 2px solid #333;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .tile {
-            background-color: #ccc;
-            border: 1px solid #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .tile.active {
-            background-color: #333;
-        }
-    </style>
+    <title>2048 Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container" onclick="handleTileClick(event)">
-        <!-- Generate tiles dynamically using JavaScript -->
+    <div class="container">
+        <div class="header">
+            <h1>2048 Game</h1>
+            <div id="score">Score: 0</div>
+        </div>
+        <div class="game-container">
+            <!-- Game board will be generated here -->
+        </div>
+        <div id="game-over-overlay">
+            <h2>Game Over!</h2>
+            <p>Your Score: <span id="final-score">0</span></p>
+            <button onclick="restartGame()">Restart</button>
+        </div>
     </div>
 
-    <script>
-        const numTiles = 16; // Total number of tiles (4x4 grid)
-        let activeTileIndex = -1; // Index of the currently active tile
-
-        // Function to generate tiles dynamically
-        function generateTiles() {
-            const gameContainer = document.querySelector('.game-container');
-            for (let i = 0; i < numTiles; i++) {
-                const tile = document.createElement('div');
-                tile.classList.add('tile');
-                tile.dataset.index = i;
-                gameContainer.appendChild(tile);
-            }
-        }
-
-        // Function to handle tile click event
-        function handleTileClick(event) {
-            const clickedTile = event.target;
-            if (clickedTile.classList.contains('tile')) {
-                if (clickedTile.classList.contains('active')) {
-                    // Correct tile clicked
-                    clickedTile.classList.remove('active');
-                    moveTileDown(clickedTile);
-                    spawnNewActiveTile();
-                } else {
-                    // Game over scenario
-                    alert('Game Over! Click OK to play again.');
-                    resetGame();
-                }
-            }
-        }
-
-        // Function to move tiles down when clicked
-        function moveTileDown(clickedTile) {
-            const tiles = document.querySelectorAll('.tile');
-            tiles.forEach(tile => {
-                if (tile !== clickedTile) {
-                    tile.style.transform = 'translateY(100%)';
-                }
-            });
-        }
-
-        // Function to spawn a new active tile at the top
-        function spawnNewActiveTile() {
-            const tiles = document.querySelectorAll('.tile');
-            const randomIndex = Math.floor(Math.random() * numTiles);
-            activeTileIndex = randomIndex;
-            tiles[randomIndex].classList.add('active');
-            tiles[randomIndex].style.transform = 'translateY(-100%)';
-        }
-
-        // Function to reset the game
-        function resetGame() {
-            const tiles = document.querySelectorAll('.tile');
-            tiles.forEach(tile => {
-                tile.classList.remove('active');
-                tile.style.transform = 'none';
-            });
-            spawnNewActiveTile();
-        }
-
-        // Initialize the game
-        generateTiles();
-        spawnNewActiveTile();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
