@@ -37,8 +37,56 @@ body {
     align-items: center;
     font-size: 24px;
     font-weight: bold;
-    background-color: #cdc1b4;
+    background-color: #eee4da;
     border-radius: 5px;
+    width: 90px;
+    height: 90px;
+    transition: background-color 0.1s;
+}
+
+.tile.level2 {
+    background-color: #eee1c9;
+}
+
+.tile.level4 {
+    background-color: #f3b27a;
+}
+
+.tile.level8 {
+    background-color: #f69664;
+}
+
+.tile.level16 {
+    background-color: #f77c5f;
+}
+
+.tile.level32 {
+    background-color: #f75f3b;
+}
+
+.tile.level64 {
+    background-color: #edcf72;
+}
+
+.tile.level128 {
+    background-color: #edcc61;
+}
+
+.tile.level256 {
+    background-color: #edc850;
+}
+
+.tile.level512 {
+    background-color: #edc53f;
+}
+
+.tile.level1024 {
+    background-color: #edc22e;
+}
+
+.tile.level2048 {
+    background-color: #3c3a32;
+    color: #f9f6f2;
 }
 
 #game-over-overlay {
