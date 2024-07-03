@@ -4,7 +4,7 @@ The famous 2048 game made in react, with a personal touch and animations
 
 # Start the game
 You can try the game from this link
-   https://monicatvera.github.io/2048
+   [https://21cookej.github.io/2048]
      
 ## Built With 🛠️
 
@@ -14,5 +14,5 @@ You can try the game from this link
 
 ## Authors 🖋
 
-* **Mónica Ilenia Tardón Vera** [monicatvera](https://github.com/monicatvera)
+* **Mónica Ilenia Tardón Vera** [monicatvera](https://github.com/21cookej)
 
