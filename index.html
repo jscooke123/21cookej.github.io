@@ -3,216 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run Tic Tac Toe Game</title>
+    <title>Website Embedder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .search-container {
+            text-align: center;
+        }
+        .search-input {
+            padding: 10px;
+            width: 400px;
+            font-size: 16px;
+        }
+        .embed-container {
+            margin-top: 20px;
+            width: 800px;
+            height: 600px;
+            overflow: hidden;
+            border: 1px solid #ccc;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>My GitHub Pages Site</h1>
-    <button id="runGameButton">Run Tic Tac Toe Game</button>
+    <div class="search-container">
+        <input type="text" id="urlInput" class="search-input" placeholder="Enter URL to embed">
+        <button onclick="embedWebsite()">Embed Website</button>
+    </div>
+    <div class="embed-container" id="embedContainer">
+        <!-- Embedded website will appear here -->
+    </div>
 
     <script>
-        document.getElementById("runGameButton").addEventListener("click", function() {
-            (function() {
-                const boardSize = 3;
-                const cellSize = '100px';
-                const cellOutlineWidth = '10px';
-                const cellGapColor = 'black';
-                const markSize = '60px';
-                const activeCellColor = 'yellow';
-                let currentPlayer = 'X';
-                let board = ['', '', '', '', '', '', '', '', ''];
-                let activeCell = null;
-                let gameOver = false;
-                let scoreX = 0;
-                let scoreO = 0;
-                let isTicTacToeVisible = false;
-                const style = `
-                    display: grid;
-                    grid-template-columns: repeat(${boardSize}, ${cellSize});
-                    grid-template-rows: repeat(${boardSize}, ${cellSize});
-                    gap: 2px;
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    background-color: ${cellGapColor};
-                    padding: 10px;
-                    border: 10px solid #000;
-                    z-index: 9999;
-                `;
-                const cells = [];
-                for (let i = 0; i < boardSize * boardSize; i++) {
-                    const cell = document.createElement('div');
-                    cell.dataset.index = i;
-                    cell.style = `
-                        width: ${cellSize};
-                        height: ${cellSize};
-                        border: ${cellOutlineWidth} solid ${cellGapColor};
-                        font-size: ${markSize};
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        cursor: pointer;
-                        user-select: none;
-                        transition: border-color 0.3s;
-                    `;
-                    cell.addEventListener('click', function() {
-                        if (!cell.textContent && !gameOver) {
-                            const index = parseInt(cell.dataset.index);
-                            cell.textContent = currentPlayer;
-                            cell.style.color = currentPlayer === 'X' ? 'red' : 'blue';
-                            cell.style.borderColor = cell.style.color;
-                            board[index] = currentPlayer;
-                            checkWin();
-                            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                        }
-                    });
-                    cell.addEventListener('mouseover', function() {
-                        if (!cell.textContent && !gameOver) {
-                            cell.style.borderColor = activeCellColor;
-                        }
-                    });
-                    cell.addEventListener('mouseout', function() {
-                        if (!cell.textContent && !gameOver) {
-                            cell.style.borderColor = cellGapColor;
-                        }
-                    });
-                    cells.push(cell);
-                }
-                function checkWin() {
-                    const winningCombinations = [
-                        [0, 1, 2], [3, 4, 5], [6, 7, 8],
-                        [0, 3, 6], [1, 4, 7], [2, 5, 8],
-                        [0, 4, 8], [2, 4, 6]
-                    ];
-                    for (const combination of winningCombinations) {
-                        const [a, b, c] = combination;
-                        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-                            gameOver = true;
-                            for (const index of combination) {
-                                cells[index].style.borderColor = currentPlayer === 'X' ? 'red' : 'blue';
-                            }
-                            if (currentPlayer === 'X') {
-                                scoreX++;
-                                updateScores();
-                            } else if (currentPlayer === 'O') {
-                                scoreO++;
-                                updateScores();
-                            }
-                            if (scoreX >= 3 || scoreO >= 3) {
-                                setTimeout(() => {
-                                    scoreX = 0;
-                                    scoreO = 0;
-                                    updateScores();
-                                    resetBoard();
-                                }, 3000);
-                            } else {
-                                resetBoard();
-                            }
-                            break;
-                        }
-                    }
-                    if (!board.includes('') && !gameOver) {
-                        resetBoard();
-                    }
-                }
-                function updateScores() {
-                    scoreXDisplay.textContent = `Player X: ${scoreX}`;
-                    scoreODisplay.textContent = `Player O: ${scoreO}`;
-                }
-                function resetBoard() {
-                    for (const cell of cells) {
-                        cell.textContent = '';
-                        cell.style.color = '';
-                        cell.style.borderColor = cellGapColor;
-                    }
-                    board = ['', '', '', '', '', '', '', '', ''];
-                    gameOver = false;
-                }
-                function toggleTicTacToe() {
-                    const ticTacToeBoard = document.querySelector('#ticTacToeBoard');
-                    isTicTacToeVisible = !isTicTacToeVisible;
-                    ticTacToeBoard.style.display = isTicTacToeVisible ? 'grid' : 'none';
-                    toggleButton.textContent = isTicTacToeVisible ? 'Off' : 'On';
-                }
-                const toggleButton = document.createElement('button');
-                toggleButton.textContent = 'On';
-                toggleButton.style = `
-                    position: fixed;
-                    top: 10px;
-                    right: 10px;
-                    padding: 5px 10px;
-                    font-size: 14px;
-                    background-color: #333;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                `;
-                toggleButton.addEventListener('click', toggleTicTacToe);
-                const resetButton = document.createElement('div');
-                resetButton.textContent = 'Reset';
-                resetButton.style = `
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: calc(${boardSize} * ${cellSize} + ${cellGapColor});
-                    height: 40px;
-                    font-size: 20px;
-                    color: white;
-                    background-color: red;
-                    border-top: 2px solid black;
-                    cursor: pointer;
-                    user-select: none;
-                    transition: background-color 0.3s;
-                `;
-                resetButton.addEventListener('click', function() {
-                    resetBoard();
-                    if (scoreX >= 3 || scoreO >= 3) {
-                        scoreX = 0;
-                        scoreO = 0;
-                        updateScores();
-                    }
-                });
-                const scoreXDisplay = document.createElement('div');
-                scoreXDisplay.textContent = `Player X: ${scoreX}`;
-                scoreXDisplay.style = `
-                    margin-top: 10px;
-                    font-size: 18px;
-                    color: red;
-                `;
-                const scoreODisplay = document.createElement('div');
-                scoreODisplay.textContent = `Player O: ${scoreO}`;
-                scoreODisplay.style = `
-                    margin-top: 5px;
-                    font-size: 18px;
-                    color: blue;
-                `;
-                const madeByJames = document.createElement('div');
-                madeByJames.textContent = 'Made by James';
-                madeByJames.style = `
-                    margin-top: 10px;
-                    font-size: 14px;
-                    color: white;
-                `;
-                const ticTacToeText = document.createElement('div');
-                ticTacToeText.textContent = 'Tic Tac Toe';
-                ticTacToeText.style = `
-                    margin-top: 5px;
-                    font-size: 14px;
-                    color: white;
-                `;
-                const ticTacToeBoard = document.createElement('div');
-                ticTacToeBoard.id = 'ticTacToeBoard';
-                ticTacToeBoard.style = style;
-                ticTacToeBoard.style.display = 'none';
-                ticTacToeBoard.append(...cells);
-                ticTacToeBoard.appendChild(ticTacToeText);
-                ticTacToeBoard.appendChild(madeByJames);
-                ticTacToeBoard.appendChild(resetButton);
-                ticTacToeBoard.appendChild(scoreXDisplay);
-                ticTacToeBoard.appendChild(scoreODisplay);
-                document.body.appendChild(ticTacToeBoard);
-                document.body.appendChild(toggleButton);
-            })();
-        });
+        function embedWebsite() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (!url) {
+                alert('Please enter a valid URL.');
+                return;
+            }
+
+            // Create an iframe element
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+
+            // Clear previous content and append the iframe
+            const embedContainer = document.getElementById('embedContainer');
+            embedContainer.innerHTML = '';
+            embedContainer.appendChild(iframe);
+        }
     </script>
 </body>
 </html>
