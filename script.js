@@ -1,457 +1,504 @@
-console.clear();
+var LEVELS = [
+  ["                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "                                                                                ",
+   "                                                                  xxx           ",
+   "                                                   xx      xx    xx!xx          ",
+   "                                    o o      xx                  x!!!x          ",
+   "                                                                 xx!xx          ",
+   "                                   xxxxx                          xvx           ",
+   "                                                                            xx  ",
+   "  xx                                      o o                                x  ",
+   "  x                     o                                                    x  ",
+   "  x                                      xxxxx                             o x  ",
+   "  x          xxxx       o                                                    x  ",
+   "  x  @       x  x                                                xxxxx       x  ",
+   "  xxxxxxxxxxxx  xxxxxxxxxxxxxxx   xxxxxxxxxxxxxxxxxxxx     xxxxxxx   xxxxxxxxx  ",
+   "                              x   x                  x     x                    ",
+   "                              x!!!x                  x!!!!!x                    ",
+   "                              x!!!x                  x!!!!!x                    ",
+   "                              xxxxx                  xxxxxxx                    ",
+   "                                                                                ",
+   "                                                                                "],
+  ["                                      x!!x                        xxxxxxx                                    x!x  ",
+   "                                      x!!x                     xxxx     xxxx                                 x!x  ",
+   "                                      x!!xxxxxxxxxx           xx           xx                                x!x  ",
+   "                                      xx!!!!!!!!!!xx         xx             xx                               x!x  ",
+   "                                       xxxxxxxxxx!!x         x                                            x!x  ",
+   "                                                xx!x         x                                            xx!x  ",
+   "                                                 x!x         x                                xxxxxxxxxxxxxxx!!x  ",
+   "                                                 xvx         x     x   x                        !!!!!!!!!!!!!!xx  ",
+   "                                                             xx  |   |   |  xx            xxxxxxxxxxxxxxxxxxxxx   ",
+   "                                                              xx!!!!!!!!!!!xx            v                        ",
+   "                                                               xxxx!!!!!xxxx                                      ",
+   "                                               x     x            xxxxxxx        xxx         xxx                  ",
+   "                                               x     x                           x x         x x                  ",
+   "                                               x     x                             x         x                    ",
+   "                                               x     x                             xx        x                    ",
+   "                                               xx    x                             x         x                    ",
+   "                                               x     x      o  o     x   x         x         x                    ",
+   "               xxxxxxx        xxx   xxx        x     x       @        x   x         x         x                    ",
+   "              xx     xx         x   x          x     x     xxxxxx    x   x   xxxxxxxxx       x                    ",
+   "             xx       xx        x   x          x    xx               x   x   x               x                    ",
+   "             x         x        x   x          x     x               x   x   x               x                    ",
+   "    xxx      x         x        x   x          x     x               x   xxxxx   xxxxxx      x                    ",
+   "    x x      x         x       xx   xx         x     x               x     o     x x         x                    ",
+   "!!!!x x!!!!!!x         x!!!!!!xx     xx!!!!!!!!xx    x!!!!!!!!!!     x     =     x x         x                    ",
+   "!!!!x x!!!!!!x         x!!!!!xx       xxxxxxxxxx     x!!!!!!!xx!     xxxxxxxxxxxxx xx  o o  xx                    ",
+   "!!!!x x!!!!!!x         x!!!!!x                      xx!!!!!!xx !                    xx     xx                     ",
+   "!!!!x x!!!!!!x         x!!!!!x                     xx!!!!!!xx  !                     xxxxxxx                      ",
+   "!!!!x x!!!!!!x         x!!!!!xx       xxxxxxxxxxxxxx!!!!!!xx   !                                                  ",
+   "!!!!x x!!!!!!x         x!!!!!!xxxxxxxxx!!!!!!!!!!!!!!!!!!xx    !                                                  ",
+   "!!!!x x!!!!!!x         x!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!xx     !                                                  "],
+  ["                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                        x                                                                     ",
+   "                                        x                                                                     ",
+   "                                        x                                                                     ",
+   "                                        x                                                                     ",
+   "                                       xxx                                                                    ",
+   "                                       x x                 !!!        !!!  xxx                                ",
+   "                                       x x                 !x!        !x!                                     ",
+   "                                     xxx xxx                x          x                                      ",
+   "                                      x   x                 x          x       xxx                            ",
+   "                                      x   x                 x          x      x!!!x                           ",
+   "                                      x   x                 xxxxxxxxxxxx       xxx                            ",
+   "                                     xx   xx      x   x      x                                                ",
+   "                                      x   xxxxxxxxx   xxxxxxxx              x x                               ",
+   "                                      x   x           x                    x!!!x                              ",
+   "                                      x   x           x                     xxx                               ",
+   "                                     xx   xx          x                                                       ",
+   "                                      x   x= = = =    x            xxx                                        ",
+   "                                      x   x           x           x!!!x                                       ",
+   "                                      x   x    = = = =x            xxx       xxx                              ",
+   "                                     xx   xx          x                     x!!!x                             ",
+   "                                      x   x           x     x                xxv        xxx                   ",
+   "                                      x   x           x              x                 x!!!x                  ",
+   "                             xxx xxx xxx xxx          x!!!!!!!!!!!!!!x                   vx                   ",
+   "                             x xxx x x xxx x          x!!!!!!!!!!!!!!x                                        ",
+   "                             x             x   xxxxxxxxxxxxxxxxxxxxxxx                                        ",
+   "                             xx           xx                                         xxx                      ",
+   "  xxx                         x     x     x                                         x!!!x                xxx  ",
+   "  x x                         x    xxx    x                                          xxx                 x x  ",
+   "  x                           x    xxx    xxxxxxx                        xxxxx                             x  ",
+   "  x                           x           x                              x   x                             x  ",
+   "  x                           xx          x                              x x x                             x  ",
+   "  x                                       x       |xxxx|    |xxxx|     xxx xxx                             x  ",
+   "  x                xxx                    x                              x         xxx                     x  ",
+   "  x               xxxxx       xx          x                             xxx       x!!!x          x         x  ",
+   "  x               oxxx        x    xxx    x                             x x        xxx          xxx        x  ",
+   "  x                xxx        xxxxxxxxxxxxx  x    x    x    x    x     xx xx                    xxx        x  ",
+   "  x      @          x         x           x!!x    x!!!!x    x!!!!x    xx   xx                    x         x  ",
+   "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxx           xxxxxxxxxxxxxxxxxxxxxxxxxxxxx     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  ",
+   "                                                                                                              ",
+   "                                                                                                              "],
+  ["                                                                                                  xxx x       ",
+   "                                                                                                      x       ",
+   "                                                                                                  xxxxx       ",
+   "                                                                                                  x           ",
+   "                                                                                                  x xxx       ",
+   "                                                                                                  x x x       ",
+   "                                                                                                  xxx x       ",
+   "                   xxx                                                                                x       ",
+   "       !     !                                                xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx       ",
+   "       x     x                                                x   x x   x x   x x   x x   x x   x x           ",
+   "       x=    x            x                                   xxx x xxx x xxx x xxx x xxx x xxx x xxxxx       ",
+   "       x     x                                                  x x   x x   x x   x x   x x   x x     x       ",
+   "       !     !                                               xxxx xxxxx xxxxx xxxxx xxxxx xxxxx xxxxxxx       ",
+   "                                                                                                              ",
+   "                         xxx                              xx                                                  ",
+   "                                                                                                              ",
+   "                                                                                                              ",
+   "                                                      xx                                                      ",
+   "                   xxx         xxx                                                                            ",
+   "                                                                                                              ",
+   "                                                                                x      x                      ",
+   "                                                          xx     xx                                           ",
+   "             xxx         xxx         xxx                                 x                  x                 ",
+   "                                                                                                              ",
+   "                                                                 ||                                           ",
+   "  xxxxxxxxxxx                                                                                                 ",
+   "  x         x   xxxxxxxxx   xxxxxxxxx   xx                                                x                   ",
+   "  x         x   x       x   x       x   x                 ||                  x     x                         ",
+   "  x  @      xxxxx       xxxxx       xxxxx                                                                     ",
+   "  xxxxxxx                                     xxxxx       xx     xx     xxx                                   ",
+   "        x=   ==    o        =                =x   x                     xxx                                   ",
+   "        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   x!!!!!!!!!!!!!!!!!!!!!xxx!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+   "                                                  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "                                                                                                              "]
+];
 
-interface BlockReturn
-{
-	placed?:any;
-	chopped?:any;
-	plane: 'x' | 'y' | 'z';
-	direction: number;
-	bonus?: boolean;
+
+function Vector(x, y) {
+	this.x = x; this.y = y;
 }
 
-class Stage
-{
-	private container: any;
-	private camera: any;
-	private scene: any;
-	private renderer: any;
-	private light: any;
-	private softLight: any;
-	private group: any;
+Vector.prototype.plus = function(other) {
+	return new Vector(this.x + other.x, this.y + other.y);
+};
+
+Vector.prototype.times = function(scale) {
+	return new Vector(this.x * scale, this.y * scale);
+};
+
+// Note: uppercase words are used that means constructor are values
+var actorchars =  {
+	"@": Player,
+	"o": Coin,
+	"=": Lava,
+	"|": Lava,
+	"v": Lava
+};
+
+function Player(pos) {
+	this.pos = pos.plus(new Vector(0, -.5));
+	this.size = new Vector(.5, 1);
+	this.speed = new Vector(0, 0);
+}
+Player.prototype.type = "player";
+
+function Lava(pos, ch) {
+	this.pos = pos;
+	this.size = new Vector(1, 1);
+	if (ch === "=")
+		this.speed = new Vector(2, 0);
+	else if (ch === '|')
+		this.speed = new Vector(0, 2);
+	else if (ch === 'v'){
+		this.speed = new Vector(0, 3); 		   
+		this.repeatPos = pos;
+	}
+}
+Lava.prototype.type = "Lava";
+
+function Coin(pos) {
+	this.basePos = this.pos = pos;
+	this.size = new Vector(.6, .6);
+	// take a look back
+	this.wobble = Math.random() * Math.PI * 2;
+}
+Coin.prototype.type = "coin";
+
+Level.prototype.isFinished = function() {
+  return this.status != null && this.finishDelay < 0;
+};
+
+function Level(plan) {
+	this.width = plan[0].length;
+	this.height = plan.length;
+	this.grid = [];
+	this.actors = [];
 	
-	constructor()
-	{
-		// container
-		
-		this.container = document.getElementById('game');
-		
-		// renderer
-		
-		this.renderer = new THREE.WebGLRenderer({
-			antialias: true,
-			alpha: false
+	for (var y = 0; y < this.height; y++) {
+		var line = plan[y],  gridLine = [];
+		for (var x = 0; x < this.width; x++) {
+			var ch = line[x], fieldType = null;
+			var Actor = actorchars[ch];
+			if (Actor)
+				this.actors.push(new Actor(new Vector(x, y), ch));
+			else if (ch === "x")
+				fieldType = "wall";
+			else if (ch === "!")
+				fieldType = "lava";
+			else if (ch === "|")
+				fieldType = "lava";
+			else if (ch === "=")
+				fieldType = "lava";
+			else if (ch === "v"){
+				fieldType = "lava";
+				console.log(fieldType);
+			}
+			gridLine.push(fieldType)
+		}
+		this.grid.push(gridLine);
+	}
+	this.player = this.actors.filter(function(actor) {
+		return actor.type === "player"
+	})[0];	
+	this.status = this.finishDelay = null;
+}
+
+function element(name, className) {
+	var elem = document.createElement(name);
+	if(className) elem.className = className;
+	return elem;
+}
+
+function DOMDisplay(parent, level) {
+	this.wrap = parent.appendChild(element("div", "game"));
+	this.level = level;
+	
+	this.wrap.appendChild(this.drawBackground());
+	this.actorLayer = null;
+	this.drawFrame();
+}
+
+
+var scale = 15;
+
+
+DOMDisplay.prototype.drawBackground = function() {
+	var table = element("table", "background");
+	table.style.width = this.level.width * scale + "px";
+	table.style.height = this.level.height * scale + "px";
+	this.level.grid.forEach(function(row) {
+  var rowElement = table.appendChild(element("tr"));
+		rowElement.style.height = scale + "px";
+		row.forEach(function(type) {
+			rowElement.appendChild(element("td", type));
 		});
-		
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
-		this.renderer.setClearColor('#D0CBC7', 1);
-		this.container.appendChild( this.renderer.domElement );
-		
-		// scene
+	});
+	return table;
+};
 
-		this.scene = new THREE.Scene();
-
-		// camera
-
-		let aspect = window.innerWidth / window.innerHeight;
-		let d = 20;
-		this.camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, -100, 1000);
-		this.camera.position.x = 2;
-		this.camera.position.y = 2; 
-		this.camera.position.z = 2; 
-		this.camera.lookAt(new THREE.Vector3(0, 0, 0));
-		
-		//light
-
-		this.light = new THREE.DirectionalLight(0xffffff, 0.5);
-		this.light.position.set(0, 499, 0);
-		this.scene.add(this.light);
-
-		this.softLight = new THREE.AmbientLight( 0xffffff, 0.4 );
-		this.scene.add(this.softLight)
-		
-		window.addEventListener('resize', () => this.onResize());
-		this.onResize();
-	}
-	
-	setCamera(y:number, speed:number = 0.3)
-	{
-		TweenLite.to(this.camera.position, speed, {y: y + 4, ease: Power1.easeInOut});
-		TweenLite.to(this.camera.lookAt, speed, {y: y, ease: Power1.easeInOut});
-	}
-	
-	onResize()
-	{
-		let viewSize = 30;
-		this.renderer.setSize(window.innerWidth, window.innerHeight);
-		this.camera.left = window.innerWidth / - viewSize;
-		this.camera.right = window.innerWidth / viewSize;
-		this.camera.top = window.innerHeight / viewSize;
-		this.camera.bottom = window.innerHeight / - viewSize;
-		this.camera.updateProjectionMatrix();
-	}
-	
-	render = function()
-	{
-		this.renderer.render(this.scene, this.camera);
-	}
-
-	add = function(elem)
-	{
-		this.scene.add(elem);
-	}
-
-	remove = function(elem)
-	{
-		this.scene.remove(elem);
-	}
+DOMDisplay.prototype.drawActors = function() {
+	var wrap = element("div");
+	this.level.actors.forEach(function(actor) {
+		var rect = wrap.appendChild(element("div", "actor " + actor.type));
+		rect.style.width = actor.size.x * scale + "px";
+		rect.style.height = actor.size.y * scale + "px";
+		rect.style.left = actor.pos.x * scale + "px";
+		rect.style.top = actor.pos.y * scale + "px";
+	});
+	return wrap;
 }
 
-class Block
-{
-	const STATES = {ACTIVE: 'active', STOPPED: 'stopped', MISSED: 'missed'};
-	const MOVE_AMOUNT = 12;
+DOMDisplay.prototype.drawFrame = function() {
+	if (this.actorLayer)
+		this.wrap.removeChild(this.actorLayer);
+	this.actorLayer = this.wrap.appendChild(this.drawActors());
+	this.wrap.className = "game " + (this.level.status || "");
+	this.scrollPlayerIntoView();
+};
 
-	dimension = { width: 0, height: 0, depth: 0}
-	position = {x: 0, y: 0, z: 0};
-	
-	mesh:any;
-	state:string;
-	index:number;
-	speed:number;
-	direction:number;
-	colorOffset:number;
-	color:number;
-	material:any;
 
-	workingPlane:string;
-	workingDimension:string;
+// clear it later
+DOMDisplay.prototype.scrollPlayerIntoView = function() {
+  var width = this.wrap.clientWidth;
+  var height = this.wrap.clientHeight;
+  var margin = width / 3;
 
-	targetBlock:Block;
-	
-	constructor(block:Block)
-	{
-		// set size and position
-		
-		this.targetBlock = block;
-		
-		this.index = (this.targetBlock ? this.targetBlock.index : 0) + 1;
-		this.workingPlane = this.index % 2 ? 'x' : 'z';
-		this.workingDimension = this.index % 2 ? 'width' : 'depth';
-		
-		// set the dimensions from the target block, or defaults.
-		
-		this.dimension.width = this.targetBlock ? this.targetBlock.dimension.width : 10;
-		this.dimension.height = this.targetBlock ? this.targetBlock.dimension.height : 2;
-		this.dimension.depth = this.targetBlock ? this.targetBlock.dimension.depth : 10;
-		
-		this.position.x = this.targetBlock ? this.targetBlock.position.x : 0;
-		this.position.y = this.dimension.height * this.index;
-		this.position.z = this.targetBlock ? this.targetBlock.position.z : 0;
-		
-		this.colorOffset = this.targetBlock ? this.targetBlock.colorOffset : Math.round(Math.random() * 100);
-		
-		// set color
-		if(!this.targetBlock) 
-		{
-			this.color = 0x333344;
-		}
-		else
-		{
-			let offset = this.index + this.colorOffset;
-			var r = Math.sin(0.3 * offset) * 55 + 200;
-			var g = Math.sin(0.3 * offset + 2) * 55 + 200;
-			var b = Math.sin(0.3 * offset + 4) * 55 + 200;
-			this.color = new THREE.Color( r / 255, g / 255, b / 255 );
-		}
-		
-		// state
-		
-		this.state = this.index > 1 ? this.STATES.ACTIVE : this.STATES.STOPPED;
-		
-		// set direction
-		
-		this.speed = -0.1 - (this.index * 0.005);
-		if(this.speed < -4) this.speed = -4;
-		this.direction = this.speed;
-		
-		// create block
-		
-		let geometry = new THREE.BoxGeometry( this.dimension.width, this.dimension.height, this.dimension.depth);
-		geometry.applyMatrix( new THREE.Matrix4().makeTranslation(this.dimension.width/2, this.dimension.height/2, this.dimension.depth/2) );
-		this.material = new THREE.MeshToonMaterial( {color: this.color, shading: THREE.FlatShading} );
-		this.mesh = new THREE.Mesh( geometry, this.material );
-		this.mesh.position.set(this.position.x, this.position.y + (this.state == this.STATES.ACTIVE ? 0 : 0), this.position.z);
-		
-		if(this.state == this.STATES.ACTIVE) 
-		{
-			this.position[this.workingPlane] = Math.random() > 0.5 ? -this.MOVE_AMOUNT : this.MOVE_AMOUNT;
-		}
-	} 
+  // The viewport
+  var left = this.wrap.scrollLeft, right = left + width;
+  var top = this.wrap.scrollTop, bottom = top + height;
 
-	reverseDirection()
-	{
-		this.direction = this.direction > 0 ? this.speed : Math.abs(this.speed); 	
-	}
+  var player = this.level.player;
+  var center = player.pos.plus(player.size.times(0.5))
+                 .times(scale);
 
-	place():BlockReturn
-	{
-		this.state = this.STATES.STOPPED;
-		
-		let overlap = this.targetBlock.dimension[this.workingDimension] - Math.abs(this.position[this.workingPlane] - this.targetBlock.position[this.workingPlane]);
-		
-		let blocksToReturn:BlockReturn = {
-			plane: this.workingPlane,
-			direction: this.direction
-		};
-		
-		if(this.dimension[this.workingDimension] - overlap < 0.3)
-		{
-			overlap = this.dimension[this.workingDimension];
-			blocksToReturn.bonus = true;
-			this.position.x = this.targetBlock.position.x;
-			this.position.z = this.targetBlock.position.z;
-			this.dimension.width = this.targetBlock.dimension.width;
-			this.dimension.depth = this.targetBlock.dimension.depth;
-		}
-		
-		if(overlap > 0)
-		{
-			let choppedDimensions = { width: this.dimension.width, height: this.dimension.height, depth: this.dimension.depth };
-			choppedDimensions[this.workingDimension] -= overlap;
-			this.dimension[this.workingDimension] = overlap;
-					
-			let placedGeometry = new THREE.BoxGeometry( this.dimension.width, this.dimension.height, this.dimension.depth);
-			placedGeometry.applyMatrix( new THREE.Matrix4().makeTranslation(this.dimension.width/2, this.dimension.height/2, this.dimension.depth/2) );
-			let placedMesh = new THREE.Mesh( placedGeometry, this.material );
-			
-			let choppedGeometry = new THREE.BoxGeometry( choppedDimensions.width, choppedDimensions.height, choppedDimensions.depth);
-			choppedGeometry.applyMatrix( new THREE.Matrix4().makeTranslation(choppedDimensions.width/2, choppedDimensions.height/2, choppedDimensions.depth/2) );
-			let choppedMesh = new THREE.Mesh( choppedGeometry, this.material );
-			
-			let choppedPosition = {
-				x: this.position.x,
-				y: this.position.y,
-				z: this.position.z
-			}
-			
-			if(this.position[this.workingPlane] < this.targetBlock.position[this.workingPlane])
-			{
-				this.position[this.workingPlane] = this.targetBlock.position[this.workingPlane]
-			}
-			else
-			{
-				choppedPosition[this.workingPlane] += overlap;
-			}
-			
-			placedMesh.position.set(this.position.x, this.position.y, this.position.z);
-			choppedMesh.position.set(choppedPosition.x, choppedPosition.y, choppedPosition.z);
-			
-			blocksToReturn.placed = placedMesh;
-			if(!blocksToReturn.bonus) blocksToReturn.chopped = choppedMesh;
-		}
-		else
-		{
-			this.state = this.STATES.MISSED;
-		}
-		
-		this.dimension[this.workingDimension] = overlap;
+  if (center.x < left + margin)
+    this.wrap.scrollLeft = center.x - margin;
+  else if (center.x > right - margin)
+    this.wrap.scrollLeft = center.x + margin - width;
+  if (center.y < top + margin)
+    this.wrap.scrollTop = center.y - margin;
+  else if (center.y > bottom - margin)
+    this.wrap.scrollTop = center.y + margin - height;
+};
 
-		return blocksToReturn;
-	}
-	
-	tick()
-	{
-		if(this.state == this.STATES.ACTIVE)
-		{
-			let value = this.position[this.workingPlane];
-			if(value > this.MOVE_AMOUNT || value < -this.MOVE_AMOUNT) this.reverseDirection();
-			this.position[this.workingPlane] += this.direction;	
-			this.mesh.position[this.workingPlane] = this.position[this.workingPlane];	
-		}
-	}
+DOMDisplay.prototype.clear = function() {
+	this.wrap.parentNode.removeChild(this.wrap);
+};
+
+Level.prototype.obstacleAt = function(pos, size) {
+  var xStart = Math.floor(pos.x);
+  var xEnd = Math.ceil(pos.x + size.x);
+  var yStart = Math.floor(pos.y);
+  var yEnd = Math.ceil(pos.y + size.y);
+
+  if (xStart < 0 || xEnd > this.width || yStart < 0)
+    return "wall";
+  if (yEnd > this.height)
+    return "lava";
+  for (var y = yStart; y < yEnd; y++) {
+    for (var x = xStart; x < xEnd; x++) {
+      var fieldType = this.grid[y][x];
+      if (fieldType) return fieldType;
+    }
+  }
+};
+
+Level.prototype.actorAt = function(actor) {
+  for (var i = 0; i < this.actors.length; i++) {
+    var other = this.actors[i];
+    if (other != actor &&
+        actor.pos.x + actor.size.x > other.pos.x &&
+        actor.pos.x < other.pos.x + other.size.x &&
+        actor.pos.y + actor.size.y > other.pos.y &&
+        actor.pos.y < other.pos.y + other.size.y)
+      return other;
+  }
+};
+
+var maxStep = 0.05;
+
+Level.prototype.animate = function(step, keys) {
+  if (this.status != null)
+    this.finishDelay -= step;
+
+  while (step > 0) {
+    var thisStep = Math.min(step, maxStep);
+    this.actors.forEach(function(actor) {
+      actor.act(thisStep, this, keys);
+    }, this);
+    step -= thisStep;
+  }
+};
+
+
+Lava.prototype.act = function(step, level) {
+  var newPos = this.pos.plus(this.speed.times(step));
+  if (!level.obstacleAt(newPos, this.size))
+    this.pos = newPos;
+  else if (this.repeatPos)
+    this.pos = this.repeatPos;
+  else
+    this.speed = this.speed.times(-1);
+};
+
+var wobbleSpeed = 8, wobbleDist = 0.07;
+
+Coin.prototype.act = function(step) {
+  this.wobble += step * wobbleSpeed;
+  var wobblePos = Math.sin(this.wobble) * wobbleDist;
+  this.pos = this.basePos.plus(new Vector(0, wobblePos));
+};
+
+
+var playerXSpeed = 10;
+
+Player.prototype.moveX = function(step, level, keys) {
+  this.speed.x = 0;
+  if (keys.left) this.speed.x -= playerXSpeed;
+  if (keys.right) this.speed.x += playerXSpeed;
+
+  var motion = new Vector(this.speed.x * step, 0);
+  var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle)
+    level.playerTouched(obstacle);
+  else
+    this.pos = newPos;
+};
+
+var gravity = 30;
+var jumpSpeed = 17;
+
+Player.prototype.moveY = function(step, level, keys) {
+  this.speed.y += step * gravity;
+  var motion = new Vector(0, this.speed.y * step);
+  var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle) {
+    level.playerTouched(obstacle);
+    if (keys.up && this.speed.y > 0)
+      this.speed.y = -jumpSpeed;
+    else
+      this.speed.y = 0;
+  } else {
+    this.pos = newPos;
+  }
+};
+
+Player.prototype.act = function(step, level, keys) {
+  this.moveX(step, level, keys);
+  this.moveY(step, level, keys);
+
+  var otherActor = level.actorAt(this);
+  if (otherActor)
+    level.playerTouched(otherActor.type, otherActor);
+
+  // Losing animation
+  if (level.status == "lost") {
+    this.pos.y += step;
+    this.size.y -= step;
+  }
+};
+
+Level.prototype.playerTouched = function(type, actor) {
+  if (type == "lava" && this.status == null) {
+    this.status = "lost";
+    this.finishDelay = 1;
+  } else if (type == "coin") {
+    this.actors = this.actors.filter(function(other) {
+      return other != actor;
+    });
+    if (!this.actors.some(function(actor) {
+      return actor.type == "coin";
+    })) {
+      this.status = "won";
+      this.finishDelay = 1;
+    }
+  }
+};
+
+var arrowCodes = {37: "left", 38: "up", 39: "right"};
+
+function trackKeys(codes) {
+  var pressed = Object.create(null);
+  function handler(event) {
+    if (codes.hasOwnProperty(event.keyCode)) {
+      var down = event.type == "keydown";
+      pressed[codes[event.keyCode]] = down;
+      event.preventDefault();
+    }
+  }
+  addEventListener("keydown", handler);
+  addEventListener("keyup", handler);
+  return pressed;
 }
 
-class Game
-{
-	const STATES = {
-		'LOADING': 'loading',
-		'PLAYING': 'playing',
-		'READY': 'ready',
-		'ENDED': 'ended',
-		'RESETTING': 'resetting'
-	}
-	blocks:Block[] = [];
-	state:string = this.STATES.LOADING;
-	
-	// groups
-
-	newBlocks:any;
-	placedBlocks:any;
-	choppedBlocks:any;
-
-	// UI elements
-
-	scoreContainer:any;
-	mainContainer:any;
-	startButton:any;
-	instructions:any;
-	
-	constructor()
-	{
-		this.stage = new Stage();
-		
-		this.mainContainer = document.getElementById('container');
-		this.scoreContainer = document.getElementById('score');
-		this.startButton = document.getElementById('start-button');
-		this.instructions = document.getElementById('instructions');
-		this.scoreContainer.innerHTML = '0';
-		
-		this.newBlocks = new THREE.Group();
-		this.placedBlocks = new THREE.Group();
-		this.choppedBlocks = new THREE.Group();
-		
-		this.stage.add(this.newBlocks);
-		this.stage.add(this.placedBlocks);
-		this.stage.add(this.choppedBlocks);
-		
-		this.addBlock();
-		this.tick();
-		
-		this.updateState(this.STATES.READY);
-		
-		document.addEventListener('keydown', e =>
-		{
-			if(e.keyCode == 32) this.onAction()
-		});
-		
-		document.addEventListener('click', e =>
-		{
-			this.onAction();
-		});		
-		
-		document.addEventListener('touchstart', e =>
-		{
-			e.preventDefault();
-			// this.onAction();
-			
-			// ☝️ this triggers after click on android so you
-			// insta-lose, will figure it out later.
-		});
-	}
-
-	updateState(newState)
-	{
-		for(let key in this.STATES) this.mainContainer.classList.remove(this.STATES[key]);
-		this.mainContainer.classList.add(newState);
-		this.state = newState;
-	}
-
-	onAction()
-	{
-		switch(this.state)
-		{
-			case this.STATES.READY:
-				this.startGame();
-				break;
-			case this.STATES.PLAYING:
-				this.placeBlock();
-				break;
-			case this.STATES.ENDED:
-				this.restartGame();
-				break;	
-		}
-	}
-	
-	startGame()
-	{
-		if(this.state != this.STATES.PLAYING)
-		{
-			this.scoreContainer.innerHTML = '0';
-			this.updateState(this.STATES.PLAYING);
-			this.addBlock();
-		}
-	}
-
-	restartGame()
-	{
-		this.updateState(this.STATES.RESETTING);
-		
-		let oldBlocks = this.placedBlocks.children;
-		let removeSpeed = 0.2;
-		let delayAmount = 0.02;
-		for(let i = 0; i < oldBlocks.length; i++)
-		{
-			TweenLite.to(oldBlocks[i].scale, removeSpeed, {x: 0, y: 0, z: 0, delay: (oldBlocks.length - i) * delayAmount, ease: Power1.easeIn, onComplete: () => this.placedBlocks.remove(oldBlocks[i])})
-			TweenLite.to(oldBlocks[i].rotation, removeSpeed, {y: 0.5, delay: (oldBlocks.length - i) * delayAmount, ease: Power1.easeIn})
-		}
-		let cameraMoveSpeed = removeSpeed * 2 + (oldBlocks.length * delayAmount);
-		this.stage.setCamera(2, cameraMoveSpeed);
-		
-		let countdown = {value: this.blocks.length - 1};
-		TweenLite.to(countdown, cameraMoveSpeed, {value: 0, onUpdate: () => {this.scoreContainer.innerHTML = String(Math.round(countdown.value))}})
-		
-		this.blocks = this.blocks.slice(0, 1);
-		
-		setTimeout(() => {
-			this.startGame();
-		}, cameraMoveSpeed * 1000)
-		
-	}
-	
-	placeBlock()
-	{
-		let currentBlock = this.blocks[this.blocks.length - 1];
-		let newBlocks:BlockReturn = currentBlock.place();
-		this.newBlocks.remove(currentBlock.mesh);
-		if(newBlocks.placed) this.placedBlocks.add(newBlocks.placed);
-		if(newBlocks.chopped)
-		{
-			this.choppedBlocks.add(newBlocks.chopped);
-			let positionParams = {y: '-=30', ease: Power1.easeIn, onComplete: () => this.choppedBlocks.remove(newBlocks.chopped)}
-			let rotateRandomness = 10;
-			let rotationParams = {
-				delay: 0.05,
-				x: newBlocks.plane == 'z' ? ((Math.random() * rotateRandomness) - (rotateRandomness/2)) : 0.1,
-				z: newBlocks.plane == 'x' ? ((Math.random() * rotateRandomness) - (rotateRandomness/2)) : 0.1,
-				y: Math.random() * 0.1,
-			};
-			if(newBlocks.chopped.position[newBlocks.plane] > newBlocks.placed.position[newBlocks.plane])
-			{
-				positionParams[newBlocks.plane] = '+=' + (40 * Math.abs(newBlocks.direction));
-			}
-			else
-			{
-				positionParams[newBlocks.plane] = '-=' + (40 * Math.abs(newBlocks.direction));
-			}
-			TweenLite.to(newBlocks.chopped.position, 1, positionParams);
-			TweenLite.to(newBlocks.chopped.rotation, 1, rotationParams);
-			
-		}
-		
-		this.addBlock();
-	}
-	
-	addBlock()
-	{
-		let lastBlock = this.blocks[this.blocks.length - 1];
-		
-		if(lastBlock && lastBlock.state == lastBlock.STATES.MISSED)
-		{
-			return this.endGame();
-		}
-		
-		this.scoreContainer.innerHTML = String(this.blocks.length - 1);
-		
-		let newKidOnTheBlock = new Block(lastBlock);
-		this.newBlocks.add(newKidOnTheBlock.mesh);
-		this.blocks.push(newKidOnTheBlock);
-
-		this.stage.setCamera(this.blocks.length * 2);
-		
-		if(this.blocks.length >= 5) this.instructions.classList.add('hide');
-	}
-	
-	endGame()
-	{
-		this.updateState(this.STATES.ENDED);
-	}
-
-	tick()
-	{
-		this.blocks[this.blocks.length - 1].tick();
-		this.stage.render();
-		requestAnimationFrame(() => {this.tick()});
-	}
+function runAnimation(frameFunc) {
+  var lastTime = null;
+  function frame(time) {
+    var stop = false;
+    if (lastTime != null) {
+      var timeStep = Math.min(time - lastTime, 100) / 1000;
+      stop = frameFunc(timeStep) === false;
+    }
+    lastTime = time;
+    if (!stop)
+      requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
 
-let game = new Game();
+var arrows = trackKeys(arrowCodes);
+
+function runLevel(level, Display, andThen) {
+  var display = new Display(document.body, level);
+  runAnimation(function(step) {
+    level.animate(step, arrows);
+    display.drawFrame(step);
+    if (level.isFinished()) {
+      display.clear();
+      if (andThen)
+        andThen(level.status);
+      return false;
+    }
+  });
+}
+
+function runGame(plans, Display) {
+  function startLevel(n) {
+    runLevel(new Level(plans[n]), Display, function(status) {
+      if (status == "lost")
+        startLevel(n);
+      else if (n < plans.length - 1)
+        startLevel(n + 1);
+      else
+        alert("You win!");
+    });
+  }
+  startLevel(0);
+}
+
+runGame(LEVELS, DOMDisplay);
