@@ -11,10 +11,10 @@ var LEVELS = [
 		"  x                                             !x                                                ",
 		"  x                                             !x                                                ",
 		"  x                                             !x                                                ",
-		"  x                                             !x                                                ",
+		"  xxxxxxxxxxxxxxwwwxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!x                                                ",
 		"  x                                             !x                                           xxxxx",
 		"  x                                             ux                                           x   x",
-		"  x                                             ug                                           x   x",
+		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxwwwxxxxxxxxxxxxxug                                           x   x",
 		"  x                                             ug                                           g   x",
 		"  x        @             m                      ux                                           g o x",
 		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppppppppppppppppppppxxxxx",
@@ -258,8 +258,7 @@ var actorchars = {
   "2": Button,
   "3": Button,
   "4": Button,
-  "d": Door,  // Add this line
-	 "s": Saw
+  "d": Door  // Add this line
 };
 
 
@@ -271,6 +270,16 @@ function Door(pos) {
 Door.prototype.type = "Door";
 Door.prototype.act = function (step) {
 };
+
+
+function block(pos) {
+  this.pos = pos;
+  this.size = new Vector(1, 0.3);
+}
+block.prototype.type = "block";
+block.prototype.act = function (step) {
+};
+
 
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.4));
@@ -319,17 +328,7 @@ Lavawall.prototype.type = "Lavawall";
 Lavawall.prototype.act = function (step) {
 };
 
-function Saw(pos) {
-  this.basePos = this.pos = pos.plus(new Vector(0.5, 0.5)); // Center point adjustment
-  this.size = new Vector(1, 1);
-  this.wobble = Math.random() * Math.PI * 2; // Optional: Add wobble for animation
-}
-Saw.prototype.type = "saw";
 
-Saw.prototype.act = function(step) {
-  // Optional: Define saw behavior, e.g., spinning
-  this.wobble += step * wobbleSpeed;
-};
 
 
 
@@ -339,9 +338,8 @@ Saw.prototype.act = function(step) {
 function Invis(pos) {
 	 this.basePos = this.pos = pos;
   this.size = new Vector(0.6, 0.6);
-  this.wobble = Math.random() * Math.PI * 2;
 }
-Invis.prototype.type = "invis";
+Invis.prototype.type = "Invis";
 Invis.prototype.act = function (step) {
 };
 
@@ -443,8 +441,9 @@ function Level(plan) {
       else if (ch === "g") fieldType = "ghost";
 				 	else if (ch === "m") fieldType = "Fakecoin";
 					 else if (ch === "u") fieldType = "Fakelava";
-      else if (ch === "p") fieldType = "invis";
+      else if (ch === "p") fieldType = "Invis";
 					 else if (ch === "l") fieldType = "lavawall";
+					 else if (ch === "w") fieldType = "block";
       else if (ch === "v") {
         fieldType = "lava";
         console.log(fieldType);
@@ -570,10 +569,24 @@ Level.prototype.obstacleAt = function(pos, size) {
   for (var y = yStart; y < yEnd; y++) {
     for (var x = xStart; x < xEnd; x++) {
       var fieldType = this.grid[y][x];
-      if (fieldType && fieldType !== "platform") return fieldType;
+      if (fieldType) {
+        if (fieldType === "block") {
+          if (this.player && size.y - pos.y > this.player.size.y - this.player.pos.y) {
+            continue;
+          }
+        } else if (fieldType === "invis") {
+          continue;
+        }
+        return fieldType;
+      }
     }
   }
 };
+
+
+
+
+
 
 
 Level.prototype.actorAt = function (actor) {
