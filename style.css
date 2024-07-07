@@ -1,109 +1,118 @@
-body
-	background: #222
+body {
+  background: #222;
+}
 
-h2
-	color: #666
-	font-family: monospace
-	text-align: center
-	
-.background
-	table-layout: fixed
-	border-spacing: 0
-	
-.background td 
-	padding: 0
+h2 {
+  color: #666;
+  font-family: monospace;
+  text-align: center;
+}
 
-.lava, .actor 
-	background: #e55
+.background {
+  table-layout: fixed;
+  border-spacing: 0;
+}
 
-.wall
-	background: #444
-	border: solid 3px #333
-	box-sizing: content-box
-	
-.actor
-	position: absolute
-	
-.coin
-	background: #e2e838
-	border-radius: 50%
-	
-.player
-	background: #335699
-	box-shadow: none
-	
-.lost .player 
-	background: #e55
+.background td {
+  padding: 0;
+}
 
-.won .player 
-	background: #335699
-	
-.game
-	position: relative
-	overflow: hidden
-	
+.lava, .actor {
+  background: #e55;
+}
+
+.wall {
+  background: #444;
+  border: solid 3px #333;
+  box-sizing: content-box;
+}
+
+.actor {
+  position: absolute;
+}
+
+.coin {
+  background: #e2e838;
+  border-radius: 50%;
+}
+
+.player {
+  background: #335699;
+  box-shadow: none;
+}
+
+.lost .player {
+  background: #e55;
+}
+
+.won .player {
+  background: #335699;
+}
+
+.game {
+  position: relative;
+  overflow: hidden;
+}
+
 /* Add styles for buttons and moving platforms */
-.platform 
-	background: #444
-	border: solid 3px #333
-	box-sizing: content-box
+.platform {
+  background: #444;
+  border: solid 3px #333;
+  box-sizing: content-box;
+}
 
-.button 
-	background-color: green
+.button {
+  background-color: green;
+}
 
+.button.invisible {
+  background-color: transparent;
+}
 
+.Invis {
+  border: 0.075px #676;
+  background-color: transparent;
+}
 
-.button.invisible 
-	background-color: transparent
+.ghost {
+  background: #444;
+  border: solid 3px #333;
+  box-sizing: content-box;
+}
 
-.Invis
-	border:  0.075px #676
-	background-color: transparent
-	
-.ghost
-	background: #444
-	border: solid 3px #333
-	box-sizing: content-box
-	
-	
-.Door
-	background: #e55
-	
-.Fakelava
-	background: #e55
-	
-.Fakecoin
-	background: #e2e838
-	border-radius: 50%
-	
-.lavawall
-	background: #e55
+.Door {
+  background: #e55;
+}
 
-.block 
-	width: 100px /* Adjust width as needed */
-	height: 0px /* Adjust height as needed */
-	background-color: #222 /* Example color */
-	background-image: linear-gradient(to right, transparent calc(1px + 1%), black calc(3px + 1%), black calc(100% - 2px), transparent calc(100% - 2px))
-	background-size: 20px 100% /* Adjust size based on block width and number of blocks */
-	background-repeat: repeat
-	background-clip: content-box
-	clip-path: polygon(0% 70%, 100% 70%, 33% 100%, 100% 100%, 0% 100%, 100% 70%, 100% 100%, 0% 100%)
+.Fakelava {
+  background: #e55;
+}
 
-	transform: scaleY(-1)
-	
+.Fakecoin {
+  background: #e2e838;
+  border-radius: 50%;
+}
 
-  
+.lavawall {
+  background: #e55;
+}
 
-  
+.block {
+  width: 100px;
+  height: 0px;
+  background-color: #222;
+  background-image: linear-gradient(to right, transparent calc(1px + 1%), black calc(3px + 1%), black calc(100% - 2px), transparent calc(100% - 2px));
+  background-size: 20px 100%;
+  background-repeat: repeat;
+  background-clip: content-box;
+  clip-path: polygon(0% 70%, 100% 70%, 33% 100%, 100% 100%, 0% 100%, 100% 70%, 100% 100%, 0% 100%);
+  transform: scaleY(-1);
+}
 
-	
-	
-.player
-	z-index: 10 /* Higher value to ensure player is on top */
+.player {
+  z-index: 10;
+}
 
-	
-.lava, .lavawall, .coin, .ghost, .fakecoin, .fakelava, .platform, .button, .door, .wall, .onewayblock
-	z-index: 5 /* Lower value to ensure they are ehind the player */
-
-
-
+.lava, .lavawall, .coin, .ghost, .fakecoin, .fakelava, .platform, .button, .door, .wall, .onewayblock {
+  z-index: 5;
+}
