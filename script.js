@@ -270,6 +270,7 @@ var actorchars = {
 	m: Fakecoin,
 	u: Fakelava,
 	q: Lavawall,
+	x: wall,
 	"=": Lava,
 	"|": Lava,
 	"!": Lava,
@@ -380,6 +381,15 @@ function Lavawall(pos) {
 }
 Lavawall.prototype.type = "Lavawall";
 Lavawall.prototype.act = function (step) {};
+
+function wall(pos) {
+	this.basePos = this.pos = pos;
+	this.size = new Vector(0.7, 0.7);
+	this.wobble = Math.random() * Math.PI * 2;
+}
+wall.prototype.type = "wall";
+wall.prototype.act = function (step) {};
+
 
 function Invis(pos) {
 	this.basePos = this.pos = pos;
