@@ -334,7 +334,7 @@ Player.prototype.type = "player";
 
 function Lava(pos, ch) {
 	this.pos = pos;
-	this.size = new Vector(1, 1.001);
+	this.size = new Vector(1, 1);
 	if (ch === "!") this.speed = new Vector(0, 0);
 	else if (ch === "=") this.speed = new Vector(2, 0);
 	else if (ch === "|") this.speed = new Vector(0, 2);
