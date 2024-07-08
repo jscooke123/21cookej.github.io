@@ -6,17 +6,17 @@ var LEVELS = [
 		"                                                                                                  ",
 		"                                                                                                  ",
 		"                                                                                                  ",
-		"                                                !!                                                ",
-		"  x                                             !x                                                ",
-		"  x                                             !x                                                ",
-		"  x                                             !x                                                ",
-		"  x                                             !x                                                ",
-		"  xxxxxxxxxxxxxxwwwxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!x                                                ",
-		"  x                                             !x                                           xxxxx",
-		"  x                                             ux                                           x   x",
-		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxwwwxxxxxxxxxxxxxug                                           x   x",
-		"  x                                             ug                                           g   x",
-		"  x        @             m                      ux                                           g o x",
+		"                                                                                                  ",
+		"  x                                              x                                                ",
+		"  x                                              x                                                ",
+		"  x                                              x                                                ",
+		"  x       o                                      x                                                ",
+		"  xxxxxxxxxxxxxxwwwxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                ",
+		"  x                        x                    !x                                           xxxxx",
+		"  x                        x                    !x                                           x   x",
+		"  xxxxwwwxxxxxxxxxxxxxxxxxxx                    ug                                           x   x",
+		"  x                        k                    ug                                           g   x",
+		"  x                  m     k         @          ux                                           g o x",
 		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppppppppppppppppppppxxxxx",
 		"                                                                                                  ",
 		"                                                                                                  ",
@@ -102,6 +102,31 @@ var LEVELS = [
 		"                 xxxxxxx xxxxxxx                                                ",
 		"                                                                                ",
 		"                                                                                "],
+	[
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"  x!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!x                                                ",
+		"  x!                                            !x                                                ",
+		"  x!                                            !x                                                ",
+		"  x!xxxxxxxxxxxxxxwwwwxxxyyxxxxxxxxxxxxxxxwwwwxx!x                                                ",
+		"  x!                     yy                     !x                                                ",
+		"  x!                     yy                     !x                                                ",
+		"  x!xxxxxxxwwwwxxxxxxxxxxyyxxwwwwxxxxxxxxxxxxxxx!x                                                ",
+		"  x!                                            !x                                                ",
+		"  x!         @                                  !x                                                ",
+		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  ",
+		"                                                                                                  "],
 	
 	[
 		"                                      x!!x                        xxxxxxx                                    x!x  ",
@@ -258,7 +283,8 @@ var actorchars = {
   "2": Button,
   "3": Button,
   "4": Button,
-  "d": Door  // Add this line
+  "d": Door,
+	 "&": Player2 // Add this line
 };
 
 
@@ -280,6 +306,29 @@ block.prototype.type = "block";
 block.prototype.act = function (step) {
 };
 
+function block2(pos) {
+  this.pos = pos;
+  this.size = new Vector(1, 0.3);
+}
+block2.prototype.type = "block2";
+block2.prototype.act = function (step) {
+};
+
+function block3(pos) {
+  this.pos = pos;
+  this.size = new Vector(1, 0.3);
+}
+block3.prototype.type = "block3";
+block3.prototype.act = function (step) {
+};
+
+function block4(pos) {
+  this.pos = pos;
+  this.size = new Vector(1, 0.3);
+}
+block4.prototype.type = "block4";
+block4.prototype.act = function (step) {
+};
 
 function Player(pos) {
   this.pos = pos.plus(new Vector(0, -0.4));
@@ -312,7 +361,7 @@ Coin.prototype.type = "coin";
 
 function Ghost(pos) {
   this.pos = pos;
-  this.size = new Vector(0.6, 0.6);
+  this.size = new Vector(0.7, 0.7);
 }
 Ghost.prototype.type = "ghost";
 Ghost.prototype.act = function (step) {
@@ -444,6 +493,9 @@ function Level(plan) {
       else if (ch === "p") fieldType = "Invis";
 					 else if (ch === "l") fieldType = "lavawall";
 					 else if (ch === "w") fieldType = "block";
+					 else if (ch === "y") fieldType = "block2";
+					 else if (ch === "k") fieldType = "block3";
+					 else if (ch === "j") fieldType = "block4";
       else if (ch === "v") {
         fieldType = "lava";
         console.log(fieldType);
@@ -453,7 +505,7 @@ function Level(plan) {
     this.grid.push(gridLine);
   }
   this.player = this.actors.filter(function (actor) {
-    return actor.type === "player";
+    return actor.type === "player" || actor.type === "player2";
   })[0];
   this.status = this.finishDelay = null;
 }
@@ -511,6 +563,25 @@ DOMDisplay.prototype.centerPlayer = function() {
 
 
 
+var arrowCodes = { 37: "left", 38: "up", 39: "right", 87: "w", 65: "a", 68: "d" };
+
+function trackKeys(codes) {
+  var pressed = Object.create(null);
+  function handler(event) {
+    if (codes.hasOwnProperty(event.keyCode)) {
+      var down = event.type == "keydown";
+      pressed[codes[event.keyCode]] = down;
+      event.preventDefault();
+    }
+  }
+  addEventListener("keydown", handler);
+  addEventListener("keyup", handler);
+  return pressed;
+}
+
+var arrows = trackKeys(arrowCodes);
+
+
 
 DOMDisplay.prototype.drawActors = function() {
   var wrap = element("div");
@@ -544,7 +615,6 @@ DOMDisplay.prototype.scrollPlayerIntoView = function () {
 
   var player = this.level.player;
   var center = player.pos.plus(player.size.times(0.5)).times(scale);
-
   if (center.x < left + margin) this.wrap.scrollLeft = center.x - margin;
   else if (center.x > right - margin)
     this.wrap.scrollLeft = center.x + margin - width;
@@ -552,6 +622,8 @@ DOMDisplay.prototype.scrollPlayerIntoView = function () {
   else if (center.y > bottom - margin)
     this.wrap.scrollTop = center.y + margin - height;
 };
+
+
 
 DOMDisplay.prototype.clear = function () {
   this.wrap.parentNode.removeChild(this.wrap);
@@ -573,6 +645,21 @@ Level.prototype.obstacleAt = function(pos, size) {
         if (fieldType === "block") {
           if (this.player && size.y - pos.y > this.player.size.y - this.player.pos.y) {
             continue;
+										}
+								}
+								if (fieldType === "block2") {
+          if (this.player && size.y + pos.y > this.player.size.y + this.player.pos.y) {
+            continue;
+										}
+								}
+								if (fieldType === "block3") {
+          if (this.player && size.x - pos.x > this.player.size.x - this.player.pos.x) {
+            continue;
+										}
+								}
+								if (fieldType === "block4") {
+          if (this.player && size.x + pos.x > this.player.size.x + this.player.pos.x) {
+            continue;
           }
         } else if (fieldType === "invis") {
           continue;
@@ -582,7 +669,6 @@ Level.prototype.obstacleAt = function(pos, size) {
     }
   }
 };
-
 
 
 
@@ -616,6 +702,7 @@ Level.prototype.animate = function (step, keys) {
     step -= thisStep;
   }
 };
+
 
 Lava.prototype.act = function (step, level) {
   var newPos = this.pos.plus(this.speed.times(step));
@@ -772,21 +859,7 @@ Level.prototype.activatePlatforms = function() {
 
 
 
-var arrowCodes = { 37: "left", 38: "up", 39: "right" };
 
-function trackKeys(codes) {
-  var pressed = Object.create(null);
-  function handler(event) {
-    if (codes.hasOwnProperty(event.keyCode)) {
-      var down = event.type == "keydown";
-      pressed[codes[event.keyCode]] = down;
-      event.preventDefault();
-    }
-  }
-  addEventListener("keydown", handler);
-  addEventListener("keyup", handler);
-  return pressed;
-}
 
 function runAnimation(frameFunc) {
   var lastTime = null;
@@ -853,4 +926,71 @@ Fakelava.prototype.type = "Fakelava";
 
 Fakelava.prototype.act = function (step) {
   // Add behavior if necessary
+};
+
+function Player2(pos) {
+  this.pos = pos.plus(new Vector(0, -0.4));
+  this.size = new Vector(0.95, 0.95);
+  this.speed = new Vector(0, 0);
+}
+Player2.prototype.type = "player2";
+
+Player2.prototype.moveX = function (step, level, keys) {
+  this.speed.x = 0;
+  if (keys.a) this.speed.x -= playerXSpeed;
+  if (keys.d) this.speed.x += playerXSpeed;
+
+  var motion = new Vector(this.speed.x * step, 0);
+  var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+  if (obstacle) level.playerTouched(obstacle);
+  else this.pos = newPos;
+};
+
+Player2.prototype.moveY = function(step, level, keys) {
+  this.speed.y += step * gravity;
+  var motion = new Vector(0, this.speed.y * step);
+  var newPos = this.pos.plus(motion);
+  var obstacle = level.obstacleAt(newPos, this.size);
+
+  // Check if standing on a platform
+  var standingOnPlatform = false;
+  var platform = level.actorAt(this);
+  if (platform && platform.type === "platform" &&
+      newPos.y <= this.pos.y && this.speed.y > 0) {
+    // Check if player is on top of the platform
+    if (newPos.x + this.size.x > platform.pos.x &&
+        newPos.x < platform.pos.x + platform.size.x) {
+      standingOnPlatform = true;
+    }
+  }
+
+  if (obstacle) {
+    level.playerTouched(obstacle);
+    if (keys.w && this.speed.y > 0) {
+      this.speed.y = -jumpSpeed;
+    } else {
+      this.speed.y = 0;
+    }
+  } else if (standingOnPlatform && keys.w) {
+    // Jump off the platform
+    this.pos = newPos;
+    this.speed.y = -jumpSpeed;
+  } else {
+    this.pos = newPos;
+  }
+};
+
+Player2.prototype.act = function (step, level, keys) {
+  this.moveX(step, level, keys);
+  this.moveY(step, level, keys);
+
+  var otherActor = level.actorAt(this);
+  if (otherActor) level.playerTouched(otherActor.type, otherActor);
+
+  if (level.status == "lost") {
+    // Remove the dying animation by commenting out or deleting the lines below
+    // this.pos.y += step;
+    // this.size.y -= step;
+  }
 };
