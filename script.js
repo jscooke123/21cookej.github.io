@@ -363,7 +363,7 @@ Coin.prototype.type = "coin";
 
 function Ghost(pos) {
   this.pos = pos;
-  this.size = new Vector(0.5, 0.6);
+  this.size = new Vector(0.6, 0.6);
 }
 Ghost.prototype.type = "ghost";
 Ghost.prototype.act = function (step) {
