@@ -269,7 +269,7 @@ var actorchars = {
 	 "m": Fakecoin,
 	 "u": Fakelava,
 	 "q": Lavawall,
-  "x": wall,
+  
   "=": Lava,
   "|": Lava,
   "!": Lava,
