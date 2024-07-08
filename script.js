@@ -15,8 +15,8 @@ var LEVELS = [
 		"  x                        x                    !x                                                                       xxxxx",
 		"  x           o            x                    !x                                                                       x   x",
 		"  xxxxwwwxxxxxxxxxxxxxxxxxxx                    ug                                                                       x   x",
-		"  x                                             ug                                                                       j   x",
-		"  x           o                      @          ux                                                                       j o x",
+		"  x                        k                    ug                                                                       g   x",
+		"  x           o            k         @          ux                                                                       g o x",
 		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppxxxxx",
 		"                                                                                                                              ",
 		"                                                                                                                              ",
@@ -162,6 +162,11 @@ var LEVELS = [
 	],
 	[
 		"                                                                                                              ",
+		"                                                                                                              ",
+		"                                                                                                              ",
+		"                                                                                                              ",
+		"                                                                                                              ",
+		"                                                                                                              ",
 		"                                        o                                                                     ",
 		"                                        x                                                                     ",
 		"                                        x                                                                     ",
@@ -264,7 +269,6 @@ var actorchars = {
 	 "m": Fakecoin,
 	 "u": Fakelava,
 	 "q": Lavawall,
-  
   "=": Lava,
   "|": Lava,
   "!": Lava,
@@ -383,14 +387,6 @@ Lavawall.prototype.type = "Lavawall";
 Lavawall.prototype.act = function (step) {
 };
 
-function wall(pos) {
-	 this.basePos = this.pos = pos;
-  this.size = new Vector(0.7, 0.7);
-  this.wobble = Math.random() * Math.PI * 2;
-}
-wall.prototype.type = "Wall";
-wall.prototype.act = function (step) {
-};
 
 
 
@@ -578,7 +574,7 @@ DOMDisplay.prototype.centerPlayer = function() {
 
 
 
-var arrowCodes = { 37: "left", 38: "up", 39: "right", 87: "w", 65: "a", 68: "d" };
+var arrowCodes = { 37: "left", 38: "up", 39: "right", 87: "w", 65: "a", 68: "d", 82: "r" }; // Added 82: "r"
 
 function trackKeys(codes) {
   var pressed = Object.create(null);
@@ -595,6 +591,7 @@ function trackKeys(codes) {
 }
 
 var arrows = trackKeys(arrowCodes);
+
 
 
 
@@ -802,7 +799,17 @@ Player.prototype.act = function (step, level, keys) {
     // this.pos.y += step;
     // this.size.y -= step;
   }
+
+  if (keys.r) {
+    this.kill(level); // Kill the player and reload the level
+  }
 };
+
+Player.prototype.kill = function(level) {
+  level.status = "lost";
+  level.finishDelay = 0.1;
+};
+
 
 
 
@@ -1009,3 +1016,5 @@ Player2.prototype.act = function (step, level, keys) {
     // this.size.y -= step;
   }
 };
+
+
