@@ -42,7 +42,7 @@ h2 {
 }
 
 .lost .player {
-  background: #e55;
+  background: #335699;
 }
 
 .won .player {
@@ -159,9 +159,9 @@ h2 {
 }
 
 .lost .player2 {
-  background: #e55;
+  background: green;
 }
 
 .won .player2 {
-  background: #335699;
+  background: green;
 }
