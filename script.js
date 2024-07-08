@@ -266,15 +266,14 @@ Vector.prototype.times = function (scale) {
 var actorchars = {
   "@": Player,
   "o": Coin,
-	 "m": Fakecoin,
-	 "u": Fakelava,
-	 "q": Lavawall,
+  "m": Fakecoin,
+  "u": Fakelava,
+  "q": Lavawall,
   "=": Lava,
   "|": Lava,
   "!": Lava,
   "v": Lava,
   "g": Ghost,
-	 "b": whiteGhost,
   "i": Invis,
   "A": Platform,
   "B": Platform,
@@ -285,7 +284,7 @@ var actorchars = {
   "3": Button,
   "4": Button,
   "d": Door,
-	 "&": Player2 // Add this line
+  "&": Player2 // Add this line
 };
 
 
@@ -369,14 +368,7 @@ Ghost.prototype.act = function (step) {
   // Add behavior if necessary
 };
 
-function whiteGhost(pos) {
-  this.pos = pos;
-  this.size = new Vector(0.7, 0.7);
-}
-whiteGhost.prototype.type = "whiteghost";
-whiteGhost.prototype.act = function (step) {
-  // Add behavior if necessary
-};
+
 
 function Lavawall(pos) {
 	 this.basePos = this.pos = pos;
@@ -498,7 +490,7 @@ function Level(plan) {
       else if (ch === "|") fieldType = "lava";
       else if (ch === "=") fieldType = "lava";
       else if (ch === "g") fieldType = "ghost";
-					 else if (ch === "b") fieldType = "whiteghost";
+					
 				 	else if (ch === "m") fieldType = "Fakecoin";
 					 else if (ch === "u") fieldType = "Fakelava";
       else if (ch === "p") fieldType = "Invis";
