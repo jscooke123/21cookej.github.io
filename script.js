@@ -4,19 +4,19 @@ var LEVELS = [
 		"                                                                                                                              ",
 		"                                                                                                                              ",
 		"                                                                                                                              ",
-		"                                                                                                                              ",
-		"                                                                                                                              ",
-		"                                                                                                                              ",
-		"  x                                              x                                                                            ",
-		"  x                                              x                                                                            ",
-		"  x                                              x                                                                            ",
-		"  x       o                                      x                                                                            ",
-		"  xxxxxxxxxxxxxxwwwxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                            ",
+		"         b                                                                                                                    ",
+		"        bb                                                                                                                    ",
+		"  x      b                                      !!                                                                            ",
+		"  x      b                                      !x                                                                            ",
+		"  x     bbb                                     !x                                                                            ",
+		"  x                                             !x                                                                            ",
+		"  x       o                          o          !x                                                                            ",
+		"  xxxxxxxxxxxxxxwwwxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!x                                                                            ",
 		"  x                        x                    !x                                                                       xxxxx",
-		"  x                        x                    !x                                                                       x   x",
+		"  x           o            x                    !x                                                                       x   x",
 		"  xxxxwwwxxxxxxxxxxxxxxxxxxx                    ug                                                                       x   x",
 		"  x                        k                    ug                                                                       g   x",
-		"  x                  m     k         @          ux                                                                       g o x",
+		"  x           o            k         @          ux                                                                       g o x",
 		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppxxxxx",
 		"                                                                                                                              ",
 		"                                                                                                                              ",
@@ -33,11 +33,11 @@ var LEVELS = [
 		"                                                                                                                                   ",
 		"                                                                                                                                   ",
 		"                                                                                                                                   ",
-		"  x                                              x                                                                                 ",
-		"  x                                              x                                                                                 ",
-		"  x                                              x                                                                                 ",
-		"  x                                              x                                                                                 ",
-		"  x                                              x                                                                                 ",
+		"  x      bbb                                     x                                                                                 ",
+		"  x        b                                     x                                                                                 ",
+		"  x      bbb                                     x                                                                                 ",
+		"  x      b                                       x                                                                                 ",
+		"  x      bbb                                     x                                                                                 ",
 		"  x                                              x                                                                                 ",
 		"  x                                              x                                                                                 ",
 		"  x                                              x                                                                                 ",
@@ -56,11 +56,11 @@ var LEVELS = [
 		"                                                                                ",
 		"                                                                                ",
 		"                                                                                ",
-		"  x                                              x                              ",
-		"  x                                              x                              ",
-		"  x                                              x                              ",
-		"  x                                              x                              ",
-		"  x                                              x                              ",
+		"  x     bbb                                      x                              ",
+		"  x       b                                      x                              ",
+		"  x     bbb                                      x                              ",
+		"  x       b                                      x                              ",
+		"  x     bbb                                      x                              ",
 		"  x                 o                            x                              ",
 		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx      x                              ",
 		"  x                                      x      xx                              ",
@@ -82,11 +82,11 @@ var LEVELS = [
 		"                                                                                ",
 		"                                                                                ",
 		"                                                                                ",
-		"  x                                              x                              ",
-		"  x                                              x                              ",
-		"  x                 o                            x                              ",
-		"  x                                              x                              ",
-		"  x                                              x                              ",
+		"  x       b b                                    x                              ",
+		"  x       b b                                    x                              ",
+		"  x       bbb       o                            x                              ",
+		"  x         b                                    x                              ",
+		"  x         b                                    x                              ",
 		"  x                                              x                              ",
 		"  xxxxxxxxxxxxxxx!!!!!!!xxxxppppppppxxxxxxx      x                              ",
 		"  x              xxxxxxx                 x      xx                              ",
@@ -106,17 +106,17 @@ var LEVELS = [
 		"                                                                                                  ",
 		"                                                                                                  ",
 		"                                                                                                  ",
-		"                                                                                                  ",
-		"                                                                                                  ",
-		"                                                                                                  ",
-		"                                                                                                  ",
-		"                                                                                                  ",
-		"  x!xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx!x                                                ",
+		"          bbb                                                                                     ",
+		"          b                                                                                       ",
+		"          bbb                                                                                     ",
+		"            b                                                                                     ",
+		"          bbb                                                                                     ",
+		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                ",
 		"  x!                                            !x                                                ",
-		"  x!                                            !x                                                ",
+		"  x!     o                        o             !x                                                ",
 		"  x!xxxxxxxxxxxxxxwwwwxxxyyxxxxxxxxxxxxxxxwwwwxx!x                                                ",
 		"  x!                     yy                     !x                                                ",
-		"  x!                     yy                     !x                                                ",
+		"  x!                 o   yy               o     !x                                                ",
 		"  x!xxxxxxxwwwwxxxxxxxxxxyyxxwwwwxxxxxxxxxxxxxxx!x                                                ",
 		"  x!                                            !x                                                ",
 		"  x!         @                                  !x                                                ",
@@ -143,11 +143,11 @@ var LEVELS = [
 		"                                               x     x            xxxxxxx        xxx         xxx                  ",
 		"                                               x     x                           x x         x x                  ",
 		"                                               x     x                             x         x                    ",
-		"                                               xo    x                             xx        x                    ",
-		"                                               xx    x                             x         x                    ",
-		"                                               x     x      o  o     x   x         x         x                    ",
-		"               xxxxxxx        xxx o xxx        x     x               x   x         x         x                    ",
-		"              xx     xx         x   x          x    ox     xxxxxx    x   x   xxxxxxxxx       x                    ",
+		"      bbb                                      xo    x                             xx        x                    ",
+		"      b                                        xx    x                             x         x                    ",
+		"      bbb                                      x     x      o  o     x   x         x         x                    ",
+		"      b b      xxxxxxx        xxx o xxx        x     x               x   x         x         x                    ",
+		"      bbb     xx     xx         x   x          x    ox     xxxxxx    x   x   xxxxxxxxx       x                    ",
 		"             xx       xx        x o x          x    xx               x   x   x               x                    ",
 		"     @       x         x        x   x          x     x               x   x   x               x                    ",
 		"    xxx      x         x        x o x          x     x               x   xxxxx   xxxxxx      x                    ",
@@ -197,11 +197,11 @@ var LEVELS = [
 		"  xxx                         x     x     x                                         x!!!x                xxx  ",
 		"  x x                         x    xxx    x                                          xxx                 x x  ",
 		"  x                           x    xxx    xxxxxxx                        xxxxx                             x  ",
-		"  x                           xo          x                              x   x                             x  ",
-		"  x                           xx          x                              x x x                             x  ",
-		"  x                                       x       |xxxx|    |xxxx|     xxx xxx                             x  ",
-		"  x                xgx                    x                              x         xxx                     x  ",
-		"  x               xuuux       xx          x                             xxx       x!!!x          x         x  ",
+		"  x      bbb                  xo          x                              x   x                             x  ",
+		"  x        b                  xx          x                              x x x                             x  ",
+		"  x        b                              x       |xxxx|    |xxxx|     xxx xxx                             x  ",
+		"  x        b       xgx                    x                              x         xxx                     x  ",
+		"  x        b      xuuux       xx          x                             xxx       x!!!x          x         x  ",
 		"  x               xudux       x    xxx    x                             x x        xxx          xxx        x  ",
 		"  x               oxxxo       xxxxxxxxxxxxx  x    x    x    x    x     xx xx                    xxx        x  ",
 		"  x      @          x         x           x!!x    x!!!!x    x!!!!x    xx   xx                    x         x  ",
@@ -230,11 +230,11 @@ var LEVELS = [
 		"                                                      xx                                                      ",
 		"                   xxx         xxx                                                                            ",
 		"                                                                                                              ",
-		"                                                                                x      x                      ",
-		"                                                          xx     xx                                           ",
-		"             xxx         xxx         xxx                                 x                  x                 ",
-		"                                                                                                              ",
-		"                                                                 ||                                           ",
+		"      bbb                                                                       x      x                      ",
+		"      b b                                                 xx     xx                                           ",
+		"      bbb    xxx         xxx         xxx                                 x                  x                 ",
+		"      b b                                                                                                     ",
+		"      bbb                                                        ||                                           ",
 		"  xxxxxxxxxxx       o           o                                                                             ",
 		"  x         x   xxxxxxxxx   xxxxxxxxx   xx                                                x                   ",
 		"  x         x   x       x   x       x   x                 ||                  x     x                         ",
@@ -274,6 +274,7 @@ var actorchars = {
   "!": Lava,
   "v": Lava,
   "g": Ghost,
+	 "b": whiteGhost,
   "i": Invis,
   "A": Platform,
   "B": Platform,
@@ -339,7 +340,7 @@ Player.prototype.type = "player";
 
 function Lava(pos, ch) {
   this.pos = pos;
-  this.size = new Vector(1, 1);
+  this.size = new Vector(1, 1.001);
 	 if (ch === "!")  this.speed = new Vector(0, 0);
   else if (ch === "=") this.speed = new Vector(2, 0);
   else if (ch === "|") this.speed = new Vector(0, 2);
@@ -368,9 +369,18 @@ Ghost.prototype.act = function (step) {
   // Add behavior if necessary
 };
 
+function whiteGhost(pos) {
+  this.pos = pos;
+  this.size = new Vector(0.7, 0.7);
+}
+whiteGhost.prototype.type = "whiteghost";
+whiteGhost.prototype.act = function (step) {
+  // Add behavior if necessary
+};
+
 function Lavawall(pos) {
 	 this.basePos = this.pos = pos;
-  this.size = new Vector(0.6, 0.6);
+  this.size = new Vector(0.7, 0.7);
   this.wobble = Math.random() * Math.PI * 2;
 }
 Lavawall.prototype.type = "Lavawall";
@@ -488,6 +498,7 @@ function Level(plan) {
       else if (ch === "|") fieldType = "lava";
       else if (ch === "=") fieldType = "lava";
       else if (ch === "g") fieldType = "ghost";
+					 else if (ch === "b") fieldType = "whiteghost";
 				 	else if (ch === "m") fieldType = "Fakecoin";
 					 else if (ch === "u") fieldType = "Fakelava";
       else if (ch === "p") fieldType = "Invis";
