@@ -286,7 +286,7 @@ var actorchars = {
 	3: Button,
 	4: Button,
 	d: Door,
-	"&": Player2 // Add this line
+	 // Add this line
 };
 
 function Door(pos) {
