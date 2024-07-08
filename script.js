@@ -270,7 +270,7 @@ var actorchars = {
 	m: Fakecoin,
 	u: Fakelava,
 	q: Lavawall,
-	x: wall,
+	c: wall,
 	"=": Lava,
 	"|": Lava,
 	"!": Lava,
@@ -387,7 +387,7 @@ function wall(pos) {
 	this.size = new Vector(0.7, 0.7);
 	this.wobble = Math.random() * Math.PI * 2;
 }
-wall.prototype.type = "wall";
+wall.prototype.type = "Wall";
 wall.prototype.act = function (step) {};
 
 
