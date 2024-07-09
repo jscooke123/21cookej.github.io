@@ -1,5 +1,6 @@
 body {
-  background: #222;
+  background-image: url("https://i.postimg.cc/YSzhkbLX/Screenshot-2024-07-09-10-27-53.png");
+  background-size: 1450px 1150px;
 }
 
 h2 {
@@ -70,7 +71,6 @@ h2 {
 }
 
 .Invis {
-  border: 0.075px #676;
   background-color: transparent;
 }
 
@@ -145,11 +145,15 @@ h2 {
   transform: rotatez(-90deg);
 }
 
-.player, .player2 {
+.player, .player2, .wall {
   z-index: 10;
 }
 
-.lava, .lavawall, .coin, .ghost, .fakecoin, .fakelava, .platform, .button, .door, .wall, .onewayblock {
+.lava, .coin {
+  z-index: 7;
+}
+
+.lavawall, .ghost, .fakecoin, .platform, .button, .door, .onewayblock, .fakelava {
   z-index: 5;
 }
 
