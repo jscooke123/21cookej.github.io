@@ -15,8 +15,8 @@ var LEVELS = [
 		"  x                        x                    !x                                                                       xxxxx",
 		"  x           o            x                    !x                                                                       x   x",
 		"  xxxxwwwxxxxxxxxxxxxxxxxxxx                    ug                                                                       x   x",
-		"  x                        k               g    ug                                                                       g   x",
-		"  x           o            k         @     g    ux                                                                       g o x",
+		"  x                        k                    ug                                                                       g   x",
+		"  x           o            k         @          ux                                                                       g o x",
 		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppxxxxx",
 		"                                                                                                                              ",
 		"                                                                                                                              ",
@@ -362,7 +362,7 @@ Coin.prototype.type = "coin";
 
 function Ghost(pos) {
   this.pos = pos;
-  this.size = new Vector(0.65, 0.65);
+  this.size = new Vector(0.7, 0.7);
 }
 Ghost.prototype.type = "ghost";
 Ghost.prototype.act = function (step) {
