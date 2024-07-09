@@ -16,7 +16,7 @@ var LEVELS = [
 		"  x           o            x                    !x                                                                       x   x",
 		"  xxxxwwwxxxxxxxxxxxxxxxxxxx                    ug                                                                       x   x",
 		"  x                        k                    ug                                                                       g   x",
-		"  x           o            k         @          ux                                                                       g o x",
+		"  x           o            k         @          ux                                                                       g   x",
 		"  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxpppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppxxxxx",
 		"                                                                                                                              ",
 		"                                                                                                                              ",
@@ -48,7 +48,7 @@ var LEVELS = [
 		"                 xuu!!!x x!!!!!x                                                                                                  p",
 		"                 xuu!!!x x!!!!!x                                                                                                  p",
 		"                 xggxxxx xxxxxxx                                                                                                  p",
-		"                 p                                                                                                               op",
+		"                 p                                                                                                                p",
 		"                 pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp"],
 	[
 		"                                                                                ",
