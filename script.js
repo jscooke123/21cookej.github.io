@@ -918,7 +918,7 @@ function runLevel(level, Display, andThen) {
 function runGame(plans, Display) {
   function startLevel(n) {
     runLevel(new Level(plans[n]), Display, function (status) {
-      if (status == "lost") startLevel(n + -n);
+      if (status == "lost") startLevel(n);
       else if (n < plans.length - 1) startLevel(n + 1);
       else alert("You win!");
     });
