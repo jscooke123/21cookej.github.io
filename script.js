@@ -574,7 +574,10 @@ DOMDisplay.prototype.centerPlayer = function() {
 
 
 
-var arrowCodes = { 37: "left", 38: "up", 39: "right", 87: "w", 65: "a", 68: "d", 82: "r" }; // Added 82: "r"
+var arrowCodes = { 37: "left", 38: "up", 39: "right", 87: "w", 65: "a", 68: "d", 82: "r", 188: ",", 190: "." }; 
+
+
+
 
 function trackKeys(codes) {
   var pressed = Object.create(null);
@@ -915,7 +918,7 @@ function runLevel(level, Display, andThen) {
 function runGame(plans, Display) {
   function startLevel(n) {
     runLevel(new Level(plans[n]), Display, function (status) {
-      if (status == "lost") startLevel(n);
+      if (status == "lost") startLevel(n + -n);
       else if (n < plans.length - 1) startLevel(n + 1);
       else alert("You win!");
     });
@@ -924,6 +927,7 @@ function runGame(plans, Display) {
 }
 
 runGame(LEVELS, DOMDisplay);
+
 
 
 function Fakecoin(pos) {
