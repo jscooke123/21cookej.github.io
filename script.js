@@ -362,7 +362,7 @@ Coin.prototype.type = "coin";
 
 function Ghost(pos) {
   this.pos = pos;
-  this.size = new Vector(0.7, 0.7);
+  this.size = new Vector(0.75, 0.75);
 }
 Ghost.prototype.type = "ghost";
 Ghost.prototype.act = function (step) {
@@ -540,7 +540,7 @@ function DOMDisplay(parent, level) {
   this.drawFrame();
 }
 
-var scale = 15;
+var scale = 16;
 
 DOMDisplay.prototype.drawBackground = function () {
   var table = element("table", "background");
