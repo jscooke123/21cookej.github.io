@@ -21,15 +21,19 @@
 					
 					if (typeof opts === "function") window.eaglercraftXOpts = opts = opts();
 					if (typeof opts === "undefined") window.eaglercraftXOpts = opts = {};
+
+					// Pre-configured server IP and name
+					opts.joinServer = "ws://mc.asspixel.net"; // WebSocket address for Asspixel server
+					opts.serverName = "Asspixel Server";      // Name of the server to display
 					
 					if (!opts.container) opts.container = "game_frame";
-					if (!opts.joinServer) {
-						var q = window.location.search;
-						if (typeof q === "string" && q.startsWith("?")) {
-							q = new URLSearchParams(q);
-							var s = q.get("server");
-							if (s) opts.joinServer = s;
-						}
+					
+					// Check if the server is passed through the URL
+					var q = window.location.search;
+					if (typeof q === "string" && q.startsWith("?")) {
+						q = new URLSearchParams(q);
+						var s = q.get("server");
+						if (s) opts.joinServer = s;
 					}
 					
 					main();
@@ -38,7 +42,8 @@
 		</script>
 	</head>
 	<body style="margin:0px;width:100vw;height:100vh;overflow:hidden;" id="game_frame">
-		<!-- Embed eaglercraft.html using iframe -->
-		<iframe src="eaglercraft.html" style="width:100%; height:100%; border:none;"></iframe>
+		<!-- Embed eaglercraft.html using iframe with the server details -->
+		<iframe src="eaglercraft.html?server=mc.asspixel.net&serverName=Asspixel%20Server"
+		        style="width:100%; height:100%; border:none;"></iframe>
 	</body>
 </html>
