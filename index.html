@@ -24,9 +24,6 @@
 					if(typeof opts === "undefined") window.eaglercraftXOpts = opts = {};
 					
 					if(!opts.container) opts.container = "game_frame";
-					if(!opts.assetsURI) opts.assetsURI = "assets.epk";
-					if(!opts.localesURI) opts.localesURI = "lang/";
-					
 					if(!opts.joinServer)  {
 						var q = window.location.search;
 						if(typeof q === "string" && q.startsWith("?")) {
