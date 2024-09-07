@@ -1,53 +1,49 @@
-<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="Play minecraft 1.8 in your browser" />
-		<meta name="keywords" content="raft, raftx, minecraft, 1.8, 1.8.8" />
+		<meta name="keywords" content="Raft, Raft, Client, 1.8, 1.8.8" />
 		<title>Raft Client V4</title>
 		<meta property="og:locale" content="en-US" />
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content="Raft Client V4" />
-		<meta property="og:description" content="Raft Client V4r" />
+		<meta property="og:description" content="Play minecraft 1.8 in your browser" />
 		<meta property="og:image" content="favicon.png" />
 		<link type="image/png" rel="shortcut icon" href="favicon.png" />
-
 		<script type="text/javascript">
 			"use strict";
 			window.addEventListener("load", () => {
-				if(document.location.href.startsWith("file:")) {
+				if (document.location.href.startsWith("file:")) {
 					alert("HTTP please, do not open this file locally, run a local HTTP server and load it via HTTP");
 				} else {
-					
-					// %%%%%%%%% launch options %%%%%%%%%%%%
-					
-					const relayId = Math.floor(Math.random() * 3);
-					window.eaglercraftXOpts = {
-						demoMode: false,
-						container: "game_frame",
-						assetsURI: "assets.epk",
-						localesURI: "lang/",
-						worldsDB: "worlds",
-						servers: [
-							{ addr: "mc.asspixel.net", name: "Asspixel Server" }
-						],
-						relays: [
-							{ addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
-							{ addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 },
-							{ addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 }
-						]
-					};
-					
-					// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-					
-					// Open the eaglercraft.html in an iframe
-					document.getElementById('game_frame').innerHTML = '<iframe src="eaglercraft.html" width="100%" height="100%" frameborder="0"></iframe>';
-					
+					var opts = window.eaglercraftXOpts;
+
+					if (typeof opts === "function") window.eaglercraftXOpts = opts = opts();
+					if (typeof opts === "undefined") window.eaglercraftXOpts = opts = {};
+
+					// Pre-configured server IP and name
+					opts.joinServer = "ws://mc.asspixel.net"; // WebSocket address for Asspixel server
+					opts.serverName = "Asspixel Server";      // Name of the server to display
+
+					if (!opts.container) opts.container = "game_frame";
+
+					// Check if the server is passed through the URL
+					var q = window.location.search;
+					if (typeof q === "string" && q.startsWith("?")) {
+						q = new URLSearchParams(q);
+						var s = q.get("server");
+						if (s) opts.joinServer = s;
+					}
+
+					main();
 				}
 			});
 		</script>
 	</head>
 	<body style="margin:0px;width:100vw;height:100vh;overflow:hidden;" id="game_frame">
+		<!-- Embed eaglercraft.html using iframe with the server details -->
+		<iframe src="eaglercraft.html?server=mc.asspixel.net&serverName=Asspixel%20Server"
+		        style="width:100%; height:100%; border:none;"></iframe>
 	</body>
 </html>
