@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,28 +34,30 @@
             border-radius: 5px;
             padding: 10px;
             z-index: 2; /* On top of the iframe */
-            display: true; /* Initially hidden */
+            display: block; /* Initially visible */
             cursor: move; /* Change cursor to indicate dragging */
         }
-        #runButton {
+        #runButton, #runIndexJSButton {
             margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div id="iframeContainer">
-        <iframe id="contentIframe" src="https://play.blooket.com/play" title="Example Website"></iframe>
+        <iframe id="contentIframe" src="https://infinite-craft.com/" title="Example Website"></iframe>
     </div>
     <div id="commandInterface">
         <div id="toggleButton" style="cursor: pointer;">Show/Hide Command Interface</div>
         <textarea id="jsInput" rows="5" cols="30" placeholder="Enter JavaScript here..."></textarea>
         <button id="runButton">Run JavaScript</button>
+        <button id="runIndexJSButton">Run index.js</button>
     </div>
 
     <script>
         const toggleButton = document.getElementById('toggleButton');
         const commandInterface = document.getElementById('commandInterface');
         const runButton = document.getElementById('runButton');
+        const runIndexJSButton = document.getElementById('runIndexJSButton');
         const jsInput = document.getElementById('jsInput');
 
         // Toggle command interface visibility
@@ -63,7 +66,7 @@
                 commandInterface.style.display === 'none' || commandInterface.style.display === '' ? 'block' : 'none';
         });
 
-        // Run the JavaScript code
+        // Run the JavaScript code from textarea
         runButton.addEventListener('click', () => {
             const userCode = jsInput.value;
             try {
@@ -72,6 +75,25 @@
                 iframeWindow.eval(userCode);
             } catch (error) {
                 console.error('Error executing JavaScript:', error);
+                alert('Error: ' + error.message);
+            }
+        });
+
+        // Run the index.js script
+        runIndexJSButton.addEventListener('click', () => {
+            try {
+                const script = document.createElement('script');
+                script.src = 'index.js'; // Ensure the path to index.js is correct
+                script.onload = () => {
+                    console.log('index.js loaded and executed');
+                };
+                script.onerror = (error) => {
+                    console.error('Failed to load index.js:', error);
+                    alert('Failed to load index.js');
+                };
+                document.body.appendChild(script);
+            } catch (error) {
+                console.error('Error loading index.js:', error);
                 alert('Error: ' + error.message);
             }
         });
