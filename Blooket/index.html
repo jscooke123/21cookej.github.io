@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Run index.js</title>
+    <title>Run Custom JS</title>
     <style>
         body, html {
             margin: 0;
@@ -12,9 +12,9 @@
         }
 
         /* Button styling */
-        #runIndexJSButton {
+        #runCustomJSButton {
             position: fixed;
-            top: 40px; /* Move button 40px from the top */
+            top: 40px; /* Adjust the button position slightly lower */
             left: 10px;
             z-index: 1000; /* Ensure it's on top of other content */
             background-color: #4CAF50; /* Green button */
@@ -26,7 +26,7 @@
             cursor: pointer;
         }
 
-        #runIndexJSButton:hover {
+        #runCustomJSButton:hover {
             background-color: #45a049; /* Darker green on hover */
         }
 
@@ -45,33 +45,48 @@
 </head>
 <body>
 
-    <!-- The button to run index.js -->
-    <button id="runIndexJSButton">Run index.js</button>
+    <!-- The button to run the JavaScript -->
+    <button id="runCustomJSButton">Run Custom JS</button>
 
     <div id="iframeContainer">
         <iframe id="contentIframe" src="https://infinite-craft.com/" title="Example Website"></iframe>
     </div>
 
     <script>
-        const runIndexJSButton = document.getElementById('runIndexJSButton');
+        const runCustomJSButton = document.getElementById('runCustomJSButton');
 
-        // Run the index.js script when the button is clicked
-        runIndexJSButton.addEventListener('click', () => {
-            try {
-                const script = document.createElement('script');
-                script.src = 'Blooket/Index.js'; // Correct path to the index.js file
-                script.onload = () => {
-                    console.log('Blooket/Index.js loaded and executed');
+        // When the button is clicked, run the provided JavaScript
+        runCustomJSButton.addEventListener('click', () => {
+            (function(){
+                let doesExists = localStorage.getItem("infinite-craft-data");
+                let confirmed;
+                let replace = '{"elements":[{"text":"Water","emoji":"💧","discovered":false},{"text":"Fire","emoji":"🔥","discovered":false},{"text":"Wind","emoji":"🌬️","discovered":false},{"text":"Earth","emoji":"🌍","discovered":false}]}';
+                if (doesExists === null) {
+                    localStorage.setItem("infinite-craft-data", replace);
+                }
+                let initial = localStorage.getItem("infinite-craft-data");
+                let array = JSON.parse(initial).elements;
+                let text = prompt("What is the name of the item?");
+                let emoji = prompt("What should the emoji be for the item? Hint: Press Windows + . ");
+                let discovered = confirm("Should the item be a first discovery?");
+                let ItemsToAdd = {
+                  text: text,
+                  emoji: emoji,
+                  discovered: discovered
                 };
-                script.onerror = (error) => {
-                    console.error('Failed to load Blooket/Index.js:', error);
-                    alert('Failed to load Blooket/Index.js');
+                array.push(ItemsToAdd);
+                let newItem = {
+                    elements: array
                 };
-                document.body.appendChild(script);
-            } catch (error) {
-                console.error('Error loading Blooket/Index.js:', error);
-                alert('Error: ' + error.message);
-            }
+                array = JSON.stringify(newItem);
+                confirmed = confirm("Are you sure? This CANNOT be easily undone!");
+                if (confirmed === true) {
+                    localStorage.setItem("infinite-craft-data", array);
+                    alert("Reloading!");
+                    window.location.reload();
+                }
+                console.log("DONE");
+            })();
         });
     </script>
 
