@@ -11,23 +11,23 @@
             height: 100%;
         }
 
-        /* Button styling */
+        /* Hide the first button */
         #runCustomJSButton {
+            display: none; /* Hides the first button */
+        }
+
+        /* Styling for the menu button */
+        #menuButton {
             position: fixed;
-            top: 40px; /* Adjust the button position slightly lower */
-            left: 10px;
-            z-index: 1000; /* Ensure it's on top of other content */
-            background-color: red; /* Green button */
+            bottom: 20px;
+            left: 20px;
+            background-color: red;
             color: white;
             border: none;
             padding: 10px 20px;
-            font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
-        }
-
-        #runCustomJSButton:hover {
-            background-color: #45a049; /* Darker green on hover */
+            z-index: 1000;
         }
 
         /* Full height iframe */
@@ -41,82 +41,125 @@
             height: 100%;
             border: none;
         }
+
+        /* Styling for the popup menu */
+        #menu {
+            position: fixed;
+            bottom: 60px;
+            left: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .input {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-right: 5px;
+        }
+
+        .closeButton {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+        }
+
+        #run {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <!-- The button to run the JavaScript -->
+    <!-- First button (hidden) -->
     <button id="runCustomJSButton">Run Custom JS</button>
+
+    <!-- Menu button (visible) -->
+    <button id="menuButton">Open Menu</button>
 
     <div id="iframeContainer">
         <iframe id="contentIframe" src="https://infinite-craft.com/" title="Example Website"></iframe>
     </div>
 
+    <!-- Menu Popup -->
+    <div id="menu">
+      <button class="closeButton" id="closeMenu">X</button>
+      <form id="form">
+        <div class="input">
+          <input
+            type="text"
+            name="emoji"
+            value="😀"
+            autocomplete="off"
+            required
+          />
+          <input
+            type="text"
+            name="object"
+            placeholder="Text"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <input type="submit" value="Generate cheat" />
+      </form>
+      <div class="output">
+        <textarea
+          id="output"
+          placeholder="Cheat will be shown here"
+          readonly
+        ></textarea>
+        <button id="run">Run</button>
+      </div>
+    </div>
+
     <script>
-        const runCustomJSButton = document.getElementById('runCustomJSButton');
+      const form = document.getElementById('form');
+      const output = document.getElementById('output');
+      const runButton = document.getElementById('run');
+      const menu = document.getElementById('menu');
+      const menuButton = document.getElementById('menuButton');
+      const closeMenuButton = document.getElementById('closeMenu');
 
-        // When the button is clicked, run the provided JavaScript
-        runCustomJSButton.addEventListener('click', () => {
-            (function(){
-                // Get the existing data in localStorage
-                let doesExists = localStorage.getItem("infinite-craft-data");
-                
-                // Set the default data if nothing exists in localStorage
-                let replace = '{"elements":[{"text":"Water","emoji":"💧","discovered":false},{"text":"Fire","emoji":"🔥","discovered":false},{"text":"Wind","emoji":"🌬️","discovered":false},{"text":"Earth","emoji":"🌍","discovered":false}]}';
-                
-                if (doesExists === null) {
-                    localStorage.setItem("infinite-craft-data", replace);
-                }
+      function safeToString(x) {
+        return x.replaceAll('"', '\\"');
+      }
 
-                // Retrieve the data after setting it (or if it already exists)
-                let initial = localStorage.getItem("infinite-craft-data");
-                let array = JSON.parse(initial).elements;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-                // Prompt the user for input
-                let text = prompt("What is the name of the item?");
-                let emoji = prompt("What should the emoji be for the item? Hint: Press Windows + . ");
-                let discovered = confirm("Should the item be a first discovery?");
-                
-                // Create a new item object
-                let ItemsToAdd = {
-                    text: text,
-                    emoji: emoji,
-                    discovered: discovered
-                };
+        const name = e.target.object.value;
+        const emoji = e.target.emoji.value;
 
-                // Add the new item to the array
-                array.push(ItemsToAdd);
+        output.value = `javascript:const name = "${safeToString(name)}"; const emoji = "${safeToString(emoji)}"; let data; if (localStorage.getItem('infinite-craft-data')) { data = JSON.parse(localStorage.getItem('infinite-craft-data')); } else { data = { elements: [{ text: 'Water', emoji: '💧', discovered: false }, { text: 'Fire', emoji: '🔥', discovered: false }, { text: 'Wind', emoji: '🌬️', discovered: false }, { text: 'Earth', emoji: '🌍', discovered: false },], darkMode: false, }; } if (!data.elements.find((x) => x.text === name && x.emoji === emoji)) { data.elements.push({ text: name, emoji, discovered: false }); localStorage.setItem('infinite-craft-data', JSON.stringify(data)); location.reload(); }`;
+      });
 
-                // Prepare the updated data structure
-                let newItem = {
-                    elements: array
-                };
+      runButton.addEventListener('click', () => {
+        eval(output.value);
+      });
 
-                // Convert the updated array back to a JSON string
-                let newItemString = JSON.stringify(newItem);
+      menuButton.addEventListener('click', () => {
+        menu.style.display = 'block';
+      });
 
-                // Confirm with the user before saving and reloading
-                let confirmed = confirm("Are you sure? This CANNOT be easily undone!");
-
-                if (confirmed === true) {
-                    // Save the updated data back to localStorage
-                    localStorage.setItem("infinite-craft-data", newItemString);
-
-                    // Log success and reload the page
-                    console.log("New item added successfully!");
-                    alert("Item added! Reloading page.");
-                    window.location.reload();
-                } else {
-                    console.log("User canceled the action.");
-                }
-            })();
-        });
-
-        // Optional: Check what's stored in localStorage after page reloads (for debugging)
-        window.addEventListener('load', () => {
-            const storedData = localStorage.getItem("infinite-craft-data");
-            console.log("Current data in localStorage:", JSON.parse(storedData));
-        });
+      closeMenuButton.addEventListener('click', () => {
+        menu.style.display = 'none';
+      });
     </script>
 
 </body>
