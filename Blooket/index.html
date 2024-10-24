@@ -11,16 +11,16 @@
             height: 100%;
         }
 
+        /* Button styling */
         #runIndexJSButton {
             position: fixed;
-            top: 10px;
+            top: 40px; /* Move button 40px from the top */
             left: 10px;
-            z-index: 1000; /* Ensure it's always on top */
-            background-color: #4CAF50; /* Green */
+            z-index: 1000; /* Ensure it's on top of other content */
+            background-color: #4CAF50; /* Green button */
             color: white;
             border: none;
             padding: 10px 20px;
-            text-align: center;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
@@ -28,6 +28,18 @@
 
         #runIndexJSButton:hover {
             background-color: #45a049; /* Darker green on hover */
+        }
+
+        /* Full height iframe */
+        #iframeContainer {
+            width: 100%;
+            height: 100%;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
@@ -37,7 +49,7 @@
     <button id="runIndexJSButton">Run index.js</button>
 
     <div id="iframeContainer">
-        <iframe id="contentIframe" src="https://infinite-craft.com/" title="Example Website" style="width:100%; height:100%; border:none;"></iframe>
+        <iframe id="contentIframe" src="https://infinite-craft.com/" title="Example Website"></iframe>
     </div>
 
     <script>
@@ -47,17 +59,17 @@
         runIndexJSButton.addEventListener('click', () => {
             try {
                 const script = document.createElement('script');
-                script.src = 'index.js'; // Ensure this is the correct path to index.js in your GitHub Pages project
+                script.src = 'Blooket/Index.js'; // Correct path to the index.js file
                 script.onload = () => {
-                    console.log('index.js loaded and executed');
+                    console.log('Blooket/Index.js loaded and executed');
                 };
                 script.onerror = (error) => {
-                    console.error('Failed to load index.js:', error);
-                    alert('Failed to load index.js');
+                    console.error('Failed to load Blooket/Index.js:', error);
+                    alert('Failed to load Blooket/Index.js');
                 };
                 document.body.appendChild(script);
             } catch (error) {
-                console.error('Error loading index.js:', error);
+                console.error('Error loading Blooket/Index.js:', error);
                 alert('Error: ' + error.message);
             }
         });
