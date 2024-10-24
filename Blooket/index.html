@@ -58,38 +58,66 @@
         // When the button is clicked, run the provided JavaScript
         runCustomJSButton.addEventListener('click', () => {
             (function(){
+                // Get the existing data in localStorage
                 let doesExists = localStorage.getItem("infinite-craft-data");
-                let confirmed;
+                
+                // Set the default data if nothing exists in localStorage
                 let replace = '{"elements":[{"text":"Water","emoji":"💧","discovered":false},{"text":"Fire","emoji":"🔥","discovered":false},{"text":"Wind","emoji":"🌬️","discovered":false},{"text":"Earth","emoji":"🌍","discovered":false}]}';
+                
                 if (doesExists === null) {
                     localStorage.setItem("infinite-craft-data", replace);
                 }
+
+                // Retrieve the data after setting it (or if it already exists)
                 let initial = localStorage.getItem("infinite-craft-data");
                 let array = JSON.parse(initial).elements;
+
+                // Prompt the user for input
                 let text = prompt("What is the name of the item?");
                 let emoji = prompt("What should the emoji be for the item? Hint: Press Windows + . ");
                 let discovered = confirm("Should the item be a first discovery?");
+                
+                // Create a new item object
                 let ItemsToAdd = {
-                  text: text,
-                  emoji: emoji,
-                  discovered: discovered
+                    text: text,
+                    emoji: emoji,
+                    discovered: discovered
                 };
+
+                // Add the new item to the array
                 array.push(ItemsToAdd);
+
+                // Prepare the updated data structure
                 let newItem = {
                     elements: array
                 };
-                array = JSON.stringify(newItem);
-                confirmed = confirm("Are you sure? This CANNOT be easily undone!");
+
+                // Convert the updated array back to a JSON string
+                let newItemString = JSON.stringify(newItem);
+
+                // Confirm with the user before saving and reloading
+                let confirmed = confirm("Are you sure? This CANNOT be easily undone!");
+
                 if (confirmed === true) {
-                    localStorage.setItem("infinite-craft-data", array);
-                    alert("Reloading!");
+                    // Save the updated data back to localStorage
+                    localStorage.setItem("infinite-craft-data", newItemString);
+
+                    // Log success and reload the page
+                    console.log("New item added successfully!");
+                    alert("Item added! Reloading page.");
                     window.location.reload();
+                } else {
+                    console.log("User canceled the action.");
                 }
-                console.log("DONE");
             })();
+        });
+
+        // Optional: Check what's stored in localStorage after page reloads (for debugging)
+        window.addEventListener('load', () => {
+            const storedData = localStorage.getItem("infinite-craft-data");
+            console.log("Current data in localStorage:", JSON.parse(storedData));
         });
     </script>
 
 </body>
 </html>
-
