@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Run Custom JS</title>
     <style>
-        /* Full viewport width and height for iframe and body */
         body, html {
             margin: 0;
             padding: 0;
@@ -20,12 +19,10 @@
             overflow: hidden;
         }
 
-        /* Hide the first button */
         #runCustomJSButton {
-            display: none; /* Hides the first button */
+            display: none;
         }
 
-        /* Styling for the menu button */
         #menuButton {
             position: fixed;
             bottom: 20px;
@@ -37,18 +34,18 @@
             border-radius: 5px;
             cursor: pointer;
             z-index: 1000;
+            display: none;
         }
 
-        /* Full height iframe */
         iframe {
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        /* Styling for the popup menus */
-        .menu {
+        #menu {
             position: fixed;
+            bottom: 60px;
             left: 20px;
             background-color: white;
             border: 1px solid #ccc;
@@ -58,16 +55,7 @@
             z-index: 1001;
             overflow: auto;
             width: 30%;
-        }
-
-        #jsMenu {
-            top: 20px;
-            height: 20%;
-        }
-
-        #menu {
-            bottom: 60px;
-            height: 16%;
+            height: auto;
         }
 
         .input {
@@ -88,6 +76,7 @@
             cursor: pointer;
             float: right;
         }
+
         #run {
             background-color: blue;
             color: white;
@@ -95,129 +84,52 @@
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            display: none;
         }
-        #runJs {
-            background-color: blue;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
+
+        #jsInput {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- First button (hidden) -->
     <button id="runCustomJSButton">Run Custom JS</button>
-
-    <!-- Menu button (visible) -->
     <button id="menuButton">Open Menu</button>
 
     <div id="iframeContainer">
         <iframe id="contentIframe" src="https://infinite-craft.com/" title="Example Website"></iframe>
     </div>
 
-    <!-- JavaScript Paste & Run Menu -->
-    <div id="jsMenu" class="menu">
-        <button class="closeButton" id="closeJsMenu">X</button>
-        <h3>Run JavaScript</h3>
-        <textarea id="jsInput" placeholder="Paste JavaScript code here" rows="4" style="width: 100%;"></textarea>
-        <button id="runJs">Run JavaScript</button>
-    </div>
+    <div id="menu">
+        <button class="closeButton" id="closeMenu">X</button>
+        <h3>Custom JavaScript Input</h3>
+        <textarea id="jsInput" placeholder="Paste your JavaScript code here"></textarea>
+        <button id="runJsButton">Run JavaScript</button>
 
-    <!-- Menu Popup -->
-    <div id="menu" class="menu">
-      <button class="closeButton" id="closeMenu">X</button>
-      <form id="form">
-        <div class="input">
-          <input
-            type="text"
-            name="emoji"
-            value="😀"
-            autocomplete="off"
-            required
-          />
-          <input
-            type="text"
-            name="object"
-            placeholder="Text"
-            autocomplete="off"
-            required
-          />
+        <form id="form">
+            <h3>Generate Cheat</h3>
+            <div class="input">
+                <input type="text" name="emoji" value="😀" autocomplete="off" required />
+                <input type="text" name="object" placeholder="Text" autocomplete="off" required />
+            </div>
+            <input type="submit" value="Generate cheat" />
+        </form>
+        <div class="output">
+            <textarea id="output" placeholder="Cheat will be shown here" readonly></textarea>
+            <button id="run">Run</button>
         </div>
-        <input type="submit" value="Generate cheat" />
-      </form>
-      <div class="output">
-        <textarea
-          id="output"
-          placeholder="Cheat will be shown here"
-          readonly
-        ></textarea>
-        <button id="run">Run</button>
-      </div>
     </div>
 
     <script>
-      const form = document.getElementById('form');
-      const output = document.getElementById('output');
-      const runButton = document.getElementById('run');
-      const menu = document.getElementById('menu');
-      const menuButton = document.getElementById('menuButton');
-      const closeMenuButton = document.getElementById('closeMenu');
-      
-      const jsMenu = document.getElementById('jsMenu');
-      const jsInput = document.getElementById('jsInput');
-      const runJsButton = document.getElementById('runJs');
-      const closeJsMenuButton = document.getElementById('closeJsMenu');
-
-      function safeToString(x) {
-        return x.replaceAll('"', '\\"');
-      }
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const name = e.target.object.value;
-        const emoji = e.target.emoji.value;
-
-        output.value = `javascript:const name = "${safeToString(name)}"; const emoji = "${safeToString(emoji)}"; let data; if (localStorage.getItem('infinite-craft-data')) { data = JSON.parse(localStorage.getItem('infinite-craft-data')); } else { data = { elements: [{ text: 'Water', emoji: '💧', discovered: false }, { text: 'Fire', emoji: '🔥', discovered: false }, { text: 'Wind', emoji: '🌬️', discovered: false }, { text: 'Earth', emoji: '🌍', discovered: false },], darkMode: false, }; } if (!data.elements.find((x) => x.text === name && x.emoji === emoji)) { data.elements.push({ text: name, emoji, discovered: false }); localStorage.setItem('infinite-craft-data', JSON.stringify(data)); location.reload(); }`;
-      });
-
-      runButton.addEventListener('click', () => {
-        const scriptContent = output.value;
-        const newScript = document.createElement('script');
-        newScript.textContent = scriptContent;
-        document.body.appendChild(newScript);
-      });
-
-      menuButton.addEventListener('click', () => {
-        menu.style.display = 'block';
-        jsMenu.style.display = 'block';
-      });
-
-      closeMenuButton.addEventListener('click', () => {
-        menu.style.display = 'none';
-      });
-
-      closeJsMenuButton.addEventListener('click', () => {
-        jsMenu.style.display = 'none';
-      });
-
-      // JavaScript Run button logic
-      runJsButton.addEventListener('click', () => {
-        const jsCode = jsInput.value;
-        try {
-          const newScript = document.createElement('script');
-          newScript.textContent = jsCode;
-          document.body.appendChild(newScript);
-          alert('JavaScript code executed successfully!');
-        } catch (error) {
-          alert('Error executing JavaScript: ' + error);
-        }
-      });
+        window.onload = function () {
+            const script = document.createElement('script');
+            script.src = "https://your-github-username.github.io/repo-name/infinite/infinite.js"; // Replace with your actual GitHub page URL
+            script.onload = () => console.log('infinite.js loaded successfully.');
+            script.onerror = () => console.error('Failed to load infinite.js');
+            document.body.appendChild(script);
+        };
     </script>
-
 </body>
 </html>
