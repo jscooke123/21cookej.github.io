@@ -91,7 +91,6 @@
             height: 100px;
             margin-bottom: 10px;
         }
-    <script src="infinite.js"></script>
     </style>
 </head>
 <body>
@@ -123,15 +122,55 @@
         </div>
     </div>
 
+    <!-- Include your JavaScript file directly -->
+    <script src="infinite/infinite.js"></script>
+
     <script>
-        window.onload = function () {
-            const script = document.createElement('script');
-            script.src = "https://your-github-username.github.io/repo-name/infinite/infinite.js"; // Replace with your actual GitHub page URL
-            script.onload = () => console.log('infinite.js loaded successfully.');
-            script.onerror = () => console.error('Failed to load infinite.js');
-            document.body.appendChild(script);
-        };
+        const form = document.getElementById('form');
+        const output = document.getElementById('output');
+        const runButton = document.getElementById('run');
+        const runJsButton = document.getElementById('runJsButton');
+        const menu = document.getElementById('menu');
+        const menuButton = document.getElementById('menuButton');
+        const closeMenuButton = document.getElementById('closeMenu');
+        const jsInput = document.getElementById('jsInput');
+
+        function safeToString(x) {
+            return x.replaceAll('"', '\\"');
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = e.target.object.value;
+            const emoji = e.target.emoji.value;
+
+            output.value = `javascript:var name = "${safeToString(name)}"; var emoji = "${safeToString(emoji)}"; var data; if (localStorage.getItem('infinite-craft-data')) { data = JSON.parse(localStorage.getItem('infinite-craft-data')); } else { data = { elements: [{ text: 'Water', emoji: '💧', discovered: false }, { text: 'Fire', emoji: '🔥', discovered: false }, { text: 'Wind', emoji: '🌬️', discovered: false }, { text: 'Earth', emoji: '🌍', discovered: false },], darkMode: false, }; } if (!data.elements.find((x) => x.text === name && x.emoji === emoji)) { data.elements.push({ text: name, emoji: emoji, discovered: false }); localStorage.setItem('infinite-craft-data', JSON.stringify(data)); location.reload(); }`;
+        });
+
+        runButton.addEventListener('click', () => {
+            const scriptContent = output.value;
+            const newScript = document.createElement('script');
+            newScript.textContent = scriptContent;
+            document.body.appendChild(newScript);
+        });
+
+        runJsButton.addEventListener('click', () => {
+            const jsCode = jsInput.value;
+            try {
+                eval(`(function() { ${jsCode} })();`);
+            } catch (error) {
+                alert('Error executing JavaScript: ' + error);
+            }
+        });
+
+        menuButton.addEventListener('click', () => {
+            menu.style.display = 'block';
+        });
+
+        closeMenuButton.addEventListener('click', () => {
+            menu.style.display = 'none';
+        });
     </script>
-    <script type="infinite/javascript" src="infinite.js"></script>
 </body>
 </html>
