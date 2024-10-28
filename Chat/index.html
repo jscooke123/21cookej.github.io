@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Live Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        #app {
+            width: 300px;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+        }
+        #room-selection, #chat-window {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        button {
+            background-color: #1a73e8;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #155bb5;
+        }
+        #chat-window {
+            display: none;
+            border: 1px solid #555;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+        }
+        #messages {
+            max-height: 100%;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+    <!-- Firebase Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.11/firebase-firestore.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h1>Firebase Chat</h1>
+        <div id="auth-section">
+            <button id="login-btn">Login with Google</button>
+        </div>
+        <div id="room-selection" style="display: none;">
+            <input type="text" id="username" placeholder="Your Name" required>
+            <input type="text" id="room" placeholder="Room Name" required>
+            <button id="join-btn">Join Room</button>
+        </div>
+        <div id="chat-window">
+            <div id="messages"></div>
+            <input type="text" id="message" placeholder="Type a message..." required>
+            <button id="send-btn">Send</button>
+            <button id="leave-btn">Leave Room</button>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration (replace with your own)
+        const firebaseConfig = {
+            apiKey: "AIzaSyCqNM8stZ1wZ9nj6CZcEx6YbdusMpC2pKc",
+            authDomain: "test-chat-d0693.firebaseapp.com",
+            projectId: "test-chat-d0693",
+            storageBucket: "test-chat-d0693.appspot.com",
+            messagingSenderId: "185735192297",
+            appId: "1:185735192297:web:3b5def4f09941c74669a78",
+            measurementId: "G-VV56VKQY14"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentRoom = "";
+
+        // Google Authentication
+        document.getElementById('login-btn').onclick = function() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).then(result => {
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('room-selection').style.display = 'block';
+                document.getElementById('username').value = result.user.displayName; // Set username to Google name
+            }).catch(error => console.error("Error logging in:", error));
+        };
+
+        // Join Room
+        document.getElementById('join-btn').onclick = function() {
+            const room = document.getElementById('room').value;
+            if (room) {
+                currentRoom = room;
+                document.getElementById('chat-window').style.display = 'block';
+                document.getElementById('room-selection').style.display = 'none';
+                loadMessages();
+            }
+        };
+
+        // Send Message
+        document.getElementById('send-btn').onclick = function() {
+            const message = document.getElementById('message').value;
+            const username = document.getElementById('username').value;
+
+            if (message) {
+                db.collection('rooms').doc(currentRoom).collection('messages').add({
+                    username: username,
+                    message: message,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                document.getElementById('message').value = '';
+            }
+        };
+
+        // Leave Room
+        document.getElementById('leave-btn').onclick = function() {
+            document.getElementById('chat-window').style.display = 'none';
+            document.getElementById('room-selection').style.display = 'block';
+            currentRoom = "";
+        };
+
+        // Load Messages and Display Timestamp
+        function loadMessages() {
+            const messagesDiv = document.getElementById('messages');
+            db.collection('rooms').doc(currentRoom).collection('messages')
+                .orderBy('timestamp')
+                .onSnapshot(snapshot => {
+                    messagesDiv.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const msg = doc.data();
+                        const time = msg.timestamp ? msg.timestamp.toDate().toLocaleString() : "Pending...";
+                        messagesDiv.innerHTML += `<p><strong>${msg.username}:</strong> ${msg.message} <small style="color:gray">(${time})</small></p>`;
+                    });
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Scroll to the bottom
+                });
+        }
+    </script>
+</body>
+</html>
